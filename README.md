@@ -4,7 +4,7 @@ Native Angular 2 date picker component styled by Twitter Bootstrap 3
 This project is build using Angular CLI.
 
 The idea of this project is to create a custome component selecting and showing dates selected by the user.
-I've decided NOT to use <input type="date|datetime-local|month|time"> because of browser restriction (does not work on firefox), and be cause I'd like the flexibility of customizing the appearance of the date using HTML tags.
+I've decided NOT to use ```html <input type="date|datetime-local|month|time">``` because of browser restriction (does not work on firefox), and be cause I'd like the flexibility of customizing the appearance of the date using HTML tags.
 I've decided NOT to use @angular/material because I wanted something easier to customize
 
 There is still much to do here, and any support is welcome.

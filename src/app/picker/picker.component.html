@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-4">
-        <div (click)="toggle()" class="input-group datepicker-control" >{{prettyDate()}} <span class="glyphicon glyphicon-calendar"></span></div>
+        <!-- tabindex="0" SHOULD NOT be hard coded like this -->
+        <div (click)="toggle()" tabindex="0" class="input-group datepicker-control" >{{prettyDate()}} <span class="glyphicon glyphicon-calendar"></span></div>
             <div *ngIf="opened" class="bootstrap-datetimepicker-widget dropdown-menu" style="display: block; bottom: auto;">
                 <div class="datepicker">
                     <div *ngIf="currentView === 'minutes'" class="datepicker-minutes">
