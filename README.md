@@ -10,7 +10,7 @@ I've decided NOT to use @angular/material because I wanted something easier to c
 There is still much to do here, and any support is welcome.
 I'm in no way an expert in frontend devepment (I'm a Java developer), so alot of these things are new to me.
 
-Demo link coming soon...
+[View Demo](https://mhlulani.github.io/datepicker)
 
 # Dependencies
 All dependencies are specified in the package.json, but the following are a MUST:
