@@ -11,11 +11,10 @@ All dependencies are specified in the package.json, but the following are a MUST
 * moment (2.17.1)
 * bootstrap (3.3.7)
 
-# Installing 
-Comming soon...
-<!--
+# Running the demo project
+
 ```shell
 npm install
 ng serve
-```-->
+```
 
