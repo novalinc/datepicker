@@ -1,0 +1,130 @@
+<div class="row">
+    <div class="col-md-4">
+        <div (click)="toggle()" class="input-group datepicker-control" >{{prettyDate()}} <span class="glyphicon glyphicon-calendar"></span></div>
+            <div *ngIf="opened" class="bootstrap-datetimepicker-widget dropdown-menu" style="display: block; bottom: auto;">
+                <div class="datepicker">
+                    <div *ngIf="currentView === 'minutes'" class="datepicker-minutes">
+                        <table class="table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Minute"></span></th>
+                                    <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Minute">{{ viewTitle() }}</th>
+                                    <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Minute"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7">
+                                        <span class="hour"
+                                            *ngFor="let time of times"
+                                            [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
+                                            (click)="zoomIn(time, $event)">
+                                            {{ time.minuteOfHour() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="currentView === 'hours'" class="datepicker-hours">
+                        <table class="table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Hour"></span></th>
+                                    <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Hour">{{ viewTitle() }}</th>
+                                    <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Hour"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7">
+                                        <span class="hour"
+                                            *ngFor="let time of times"
+                                            [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
+                                            (click)="zoomIn(time, $event)">
+                                            {{ time.hourOfDay() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="currentView === 'days'" class="datepicker-days">
+                        <table class="table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Month"></span></th>
+                                    <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Month">{{ viewTitle() }}</th>
+                                    <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Month"></span></th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let day of days" class="dow">{{ day }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let week of weeks">
+                                    <td *ngFor="let date of week"
+                                        (click)="zoomIn(date, $event)" class="day"
+                                        [ngClass]="{active: date.selected, today: date.active, blurred: false, disabled: date.disabled}">{{ date.dayOfMonth() }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="currentView === 'months'" class="datepicker-months">
+                        <table class="table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Year"></span></th>
+                                    <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Year">{{ viewTitle() }}</th>
+                                    <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Year"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7">
+                                        <span class="month"
+                                            *ngFor="let time of times"
+                                            [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
+                                            (click)="zoomIn(time, $event)">
+                                            {{ time.monthOfYear() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="currentView === 'years'" class="datepicker-years">
+                        <table class="table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Decade"></span></th>
+                                    <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Decade">{{ viewTitle() }}</th>
+                                    <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Decade"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7">
+                                        <span class="year"
+                                            *ngFor="let time of times"
+                                            [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
+                                            (click)="zoomIn(time, $event)">
+                                            {{ time.year() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+

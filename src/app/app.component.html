@@ -1,0 +1,83 @@
+<header class="jumbotron text-center" id="overview">
+    <div class="container">
+
+        <h1>Angular 2 Datetime Picker</h1>
+
+        <p>Native Angular 2 datetime picker styled by Twitter Bootstrap</p>
+
+        <p class="btn-group">
+            <a class="btn btn-default" href="https://github.com/dalelotts/angular-bootstrap-datetimepicker">
+              <i class="fa fa-github" aria-hidden="true"></i> Code on Github
+            </a>
+            <a class="btn btn-primary" href="https://github.com/dalelotts/angular-bootstrap-datetimepicker/releases/latest">
+                <i class="icon-download-alt icon-white"></i>Download
+                <small>(latest release)</small>
+            </a>
+        </p>
+ </div>
+</header>
+
+<div class="container">
+    <section>
+        <div class="page-header">
+            <h2>Usage Examples</h2>
+        </div>
+        <form #form="ngForm"> 
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Selecting both date and time e.g. Departure time</h4>
+                    <nl-picker name="departure" temporal="timestamp" [(ngModel)]="departure"></nl-picker>
+                        <!--<pre>{{ form.value | json }}</pre>-->
+                </div>
+                <div class="col-sm-6">
+                    <h4>How? </h4>
+                    <pre>&lt;nl-picker name="departure" temporal="timestamp" [(ngModel)]="departure"&gt;&lt;/nl-picker&gt;</pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Selecting only date e.g. Arrival Date</h4>
+                    <nl-picker name="arrival" temporal="date" [(ngModel)]="arrival"></nl-picker>
+                        <!--<pre>{{ form.value | json }}</pre>-->
+                </div>
+                <div class="col-sm-6">
+                    <h4>How? </h4>
+                    <pre>&lt;nl-picker name="arrival" temporal="date" [(ngModel)]="arrival"&gt;&lt;/nl-picker&gt;</pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Selecting only time e.g. Daily alarm</h4>
+                    <nl-picker name="alarm" temporal="time" [(ngModel)]="alarm"></nl-picker>
+                        <!--<pre>{{ form.value | json }}</pre>-->
+                </div>
+                <div class="col-sm-6">
+                    <h4>Time</h4>
+                    <pre>&lt;nl-picker name="alarm" temporal="time" [(ngModel)]="alarm"&gt;&lt;/nl-picker&gt;</pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Permitting only future dates e.g. Scheduling a meeing</h4>
+                    <nl-picker name="meeting" future temporal="timestamp" [(ngModel)]="meeting"></nl-picker>
+                        <!--<pre>{{ form.value | json }}</pre>-->
+                </div>
+                <div class="col-sm-6">
+                    <h4>How?</h4>
+                    <pre>&lt;nl-picker name="meeting" future temporal="timestamp" [(ngModel)]="meeting"&gt;&lt;/nl-picker&gt;</pre>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Permitting only past dates e.g. date of birth</h4>
+                    <nl-picker name="dateOfBirth" past temporal="date" [(ngModel)]="dateOfBirth"></nl-picker>
+                        <!--<pre>{{ form.value | json }}</pre>-->
+                </div>
+                <div class="col-sm-6">
+                    <h4>How?</h4>
+                    <pre>&lt;nl-picker name="dateOfBirth" past temporal="date" [(ngModel)]="dateOfBirth"&gt;&lt;/nl-picker&gt;</pre>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
