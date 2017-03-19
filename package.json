@@ -1,7 +1,21 @@
 {
   "name": "novalinc-datepicker",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
+  "description": "Simple Angular 2 Date picker",
+  "author": {
+    "name": "Hlulani Mhlongo",
+    "url": "https://github.com/mhlulani"
+  },
+  "homepage": "https://github.com/mhlulani/novalinc-datepicker",
+  "keywords": [
+    "calendar",
+    "datepicker",
+    "datetimepicker",
+    "date picker",
+    "time picker",
+    "angular"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +24,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/mhlulani/novalinc-datepicker.git"
+  },
   "dependencies": {
     "@angular/common": "^2.4.0",
     "@angular/compiler": "^2.4.0",
