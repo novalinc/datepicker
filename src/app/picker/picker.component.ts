@@ -175,12 +175,14 @@ export class PickerComponent implements ControlValueAccessor, OnInit {
         this.createCalendar();
     }
 
-    toggle(): void {
-        this.opened = !this.opened;
+    onFocus(): void {
         this.propagateTouch(this.selectedDate);
-        if (this.opened) {
-            this.createCalendar();
-        }
+        this.createCalendar();
+        this.opened = true;
+    }
+
+    onBlur(): void {
+        this.opened = false;
     }
 
     private _selectedDate: DateModel;
