@@ -1,15 +1,28 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
+    "allowUnusedLabels": false,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
     "target": "es5",
-    "lib": [
-      "es2016"
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "typeRoots": [
+      "node_modules/@types"
     ]
+  },
+  "exclude": [
+    "./node_modules",
+    "aot",
+    "dist",
+    "**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "aot",
+    "strictMetadataEmit": true
   }
 }

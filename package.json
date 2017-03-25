@@ -1,67 +1,48 @@
 {
-  "name": "novalinc-datepicker",
-  "version": "0.0.2",
-  "license": "MIT",
-  "description": "Simple Angular 2 Date picker",
-  "author": {
-    "name": "Hlulani Mhlongo",
-    "url": "https://github.com/mhlulani"
+  "name": "@novalinc/datepicker",
+  "version": "0.0.0",
+  "description": "Date and time pickers for Angular 2/4",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp clean && ngc && gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/mhlulani/novalinc-datepicker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/novalinc/datepicker.git"
+  },
   "keywords": [
-    "calendar",
     "datepicker",
-    "datetimepicker",
-    "date picker",
-    "time picker",
+    "calendar",
     "angular"
   ],
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
-    "repository": {
-    "type": "git",
-    "url": "https://github.com/mhlulani/novalinc-datepicker.git"
-  },
+  "author": {
+     "name": "Hlulani Mhlongo"
+     },
+  "license": "ISC",
   "dependencies": {
-    "@angular/common": "^2.4.0",
-    "@angular/compiler": "^2.4.0",
-    "@angular/core": "^2.4.0",
-    "@angular/forms": "^2.4.0",
-    "@angular/http": "^2.4.0",
-    "@angular/platform-browser": "^2.4.0",
-    "@angular/platform-browser-dynamic": "^2.4.0",
-    "@angular/router": "^3.4.0",
+    "@angular/common": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "4.7.0",
     "jquery": "^3.1.1",
-    "moment": "^2.17.1",
-    "rxjs": "^5.1.0",
-    "zone.js": "^0.7.6"
+    "moment": "^2.17.1"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.0-rc.2",
-    "@angular/compiler-cli": "^2.4.0",
-    "@types/jasmine": "2.5.38",
-    "@types/node": "~6.0.60",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@types/es6-shim": "^0.31.32",
+    "@types/jasmine": "^2.5.40",
+    "@types/selenium-webdriver": "^2.53.39",
     "codelyzer": "~2.0.0",
-    "jasmine-core": "~2.5.2",
-    "jasmine-spec-reporter": "~3.2.0",
-    "karma": "~1.4.1",
-    "karma-chrome-launcher": "~2.0.0",
-    "karma-cli": "~1.0.1",
-    "karma-coverage-istanbul-reporter": "^0.2.0",
-    "karma-jasmine": "~1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.0",
-    "ts-node": "~2.0.0",
-    "tslint": "~4.4.2",
-    "typescript": "^2.2.1"
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "rxjs": "^5.1.0",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.0",
+    "zone.js": "0.8.4"
   }
 }

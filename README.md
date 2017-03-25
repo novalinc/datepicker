@@ -1,4 +1,4 @@
-# Angular 2 Datetime Picker
+# Angular 2/4 Datetime Picker
 
 Native Angular 2 date picker component styled by Twitter Bootstrap 3
 This project is build using Angular CLI.
@@ -10,11 +10,11 @@ I've decided NOT to use @angular/material because I wanted something easier to c
 There is still much to do here, and any support is welcome.
 I'm in no way an expert in frontend devepment (I'm a Java developer), so alot of these things are new to me.
 
-[View Demo](https://mhlulani.github.io/datepicker)
+[View Demo](https://novalinc.github.io/datepicker)
 
 # Dependencies
 All dependencies are specified in the package.json, but the following are a MUST:
-* angular-cli (1.0.0-rc.2)
+* angular-cli (1.0.0)
 * moment (2.17.1)
 * bootstrap (3.3.7)
 

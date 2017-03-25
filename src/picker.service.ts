@@ -15,7 +15,7 @@ export class PickerService {
         ];
 
 
- validator (configuration): boolean {
+ validator (configuration: any): boolean {
 
       var invalidOptions = Object.keys(configuration).filter(function (key) {
         return (this.validOptions.indexOf(key) < 0)
