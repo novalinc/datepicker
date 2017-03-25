@@ -4,7 +4,7 @@ const del = require('del');
 gulp.task('default', function() {
     gulp.src([
         'package.json',
-        'README.MD'
+        'README.md'
         ])
         .pipe(gulp.dest('dist'));
 });
