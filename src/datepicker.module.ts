@@ -11,6 +11,6 @@ import { DatepickerService } from './datepicker.service';
     exports: [ DatepickerComponent ],
     providers: [ DatepickerService ]
 })
-export class PickerModule {
+export class DatepickerModule {
 
 }
