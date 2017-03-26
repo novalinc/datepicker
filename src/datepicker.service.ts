@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class PickerService {
+export class DatepickerService {
     validOptions = [
             'configureOn',
             'dropdownSelector',

@@ -1,5 +1,5 @@
-export * from './src/picker.component';
-export * from './src/picker.module';
-export * from './src/picker.service';
-export * from './src/picker.types';
+export * from './src/datepicker.component';
+export * from './src/datepicker.module';
+export * from './src/datepicker.service';
+export * from './src/datepicker.types';
 

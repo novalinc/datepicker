@@ -7,6 +7,8 @@ gulp.task('default', function() {
         'README.md'
         ])
         .pipe(gulp.dest('dist'));
+
+
 });
 
 gulp.task('clean', function() {
