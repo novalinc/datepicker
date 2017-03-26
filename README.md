@@ -13,7 +13,6 @@ I'm in no way an expert in frontend devepment (I'm a Java developer), so alot of
 
 # Dependencies
 All dependencies are specified in the package.json, but the following are a MUST:
-* angular-cli (1.0.0)
 * moment (2.17.1)
 * bootstrap (3.3.7)
 
