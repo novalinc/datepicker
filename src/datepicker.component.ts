@@ -17,7 +17,7 @@ const MINUTE = 4;
     template: `
 <!-- tabindex="0" SHOULD NOT be hard coded like this -->
 <div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()" >
-    <div class="input-group datepicker-control" >{{prettyDate()}} <span class="glyphicon glyphicon-calendar"></span></div>
+    <div class="input-group datepicker-control"><span [innerHTML]="prettyDate"></span> <span class="glyphicon glyphicon-calendar"></span></div>
         <div *ngIf="opened" class="nldp-widget dropdown-menu" style="display: block; bottom: auto;">
             <div *ngIf="currentView === 'minutes'" class="datepicker-minutes">
                 <table class="table-condensed">
@@ -546,25 +546,21 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         }
         switch(this.temporal) {
             case "date": 
-                this._prettyDateFormat = "D MMM, YYYY";
                 this.maxThreshold = DAY;
                 this.minThreshold = YEAR;
                 this._focus = DAY;
                 break;
             case "timestamp": 
-                this._prettyDateFormat = "D MMM, YYYY HH:mm";
                 this.maxThreshold = MINUTE;
                 this.minThreshold = YEAR;
                 this._focus = DAY;
                 break;
             case "time": 
-                this._prettyDateFormat = "HH:mm";
                 this.maxThreshold = MINUTE;
                 this.minThreshold = HOUR;
                 this._focus = HOUR;
                 break;
             default:
-                this._prettyDateFormat = "D MMM, YYYY HH:mm";
                 this.maxThreshold = MINUTE;
                 this.minThreshold = YEAR;
                 this._focus = DAY;
@@ -624,9 +620,34 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.createCalendar();
     }
 
-    prettyDate(): string {
+    get prettyDate(): string {
         if (this.selectedDate) {
-            return this.selectedDate.getMoment().format(this._prettyDateFormat);
+            let m = this.selectedDate.getMoment();
+
+            let 
+            year = m.format("YYYY"), 
+            month = m.format("MMM"), 
+            day = m.format("D"), 
+            weekDay = m.format("ddd"), 
+            hour = m.format("h"), 
+            minute =  m.format("mm"),
+            marker = m.format("a");
+
+            switch(this.temporal) {
+                case "date": 
+                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>`;
+                case "timestamp": 
+                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>
+                    <div><strong>${hour}</strong>:${minute}${marker}</div>
+                    `;
+                case "time":
+                    return `<div><strong>${hour}</strong>:${minute}${marker}</div>`;
+                default:
+                console.warn("Invalid temporal: ", this.temporal);
+                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>
+                    <div><strong>${hour}</strong>:${minute}${marker}</div>
+                    `;
+            } 
         }
         return "Please select";
     }
@@ -683,8 +704,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     private _selectedDate: DateModel;
 
     private _cursor: moment.Moment;
-
-    private _prettyDateFormat: string;
 
     private _focus: number;
 
