@@ -16,8 +16,13 @@ const MINUTE = 4;
     selector: 'nl-datepicker',
     template: `
 <!-- tabindex="0" SHOULD NOT be hard coded like this -->
-<div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()" >
-    <div class="input-group datepicker-control"><span [innerHTML]="prettyDate"></span> <span class="glyphicon glyphicon-calendar"></span></div>
+<div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()">
+        <div class="datepicker-group" (click)="onClick()">
+            <div class="datepicker-control" [innerHTML]="prettyDate"></div>
+            <div class="datepicker-icon">
+                <div class="glyphicon glyphicon-calendar center-block"></div>
+            </div>
+        </div>
         <div *ngIf="opened" class="nldp-widget dropdown-menu" style="display: block; bottom: auto;">
             <div *ngIf="currentView === 'minutes'" class="datepicker-minutes">
                 <table class="table-condensed">
@@ -493,12 +498,35 @@ width: 21em;
 .nldp-widget .datepicker-decades .decade {
 line-height: 1.8em !important;
 }
-.input-group.date .input-group-addon {
-cursor: pointer;
+
+.ui-datepicker {
+    max-width: 210px;
 }
-.datepicker-control {
+
+.datepicker-group {
     cursor: pointer;
+    display: table;
+    width: 100%;
+    min-height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 4px;    
 }
+
+.datepicker-control {
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.datepicker-control, .datepicker-icon {
+    display: table-cell;
+}
+
+.datepicker-icon {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 17pt;
+}
+
 .sr-only {
 position: absolute;
 width: 1px;
@@ -635,16 +663,16 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
             switch(this.temporal) {
                 case "date": 
-                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>`;
+                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>`;
                 case "timestamp": 
-                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>
+                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
                     <div><strong>${hour}</strong>:${minute}${marker}</div>
                     `;
                 case "time":
                     return `<div><strong>${hour}</strong>:${minute}${marker}</div>`;
                 default:
                 console.warn("Invalid temporal: ", this.temporal);
-                    return `<div>${weekDay} <strong>${day} ${month}</strong>, ${year}</div>
+                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
                     <div><strong>${hour}</strong>:${minute}${marker}</div>
                     `;
             } 
@@ -691,13 +719,17 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.createCalendar();
     }
 
+
+    onClick(): void {
+        this.opened = !this.opened;
+    }
+
     onFocus(): void {
-        this.propagateTouch(this.selectedDate);
         this.createCalendar();
-        this.opened = true;
     }
 
     onBlur(): void {
+        this.propagateTouch(this.selectedDate);
         this.opened = false;
     }
 
