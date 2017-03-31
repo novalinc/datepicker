@@ -1,85 +1,109 @@
 import { Injectable } from '@angular/core';
 
+import * as moment from "moment";
+
+import { DateModel, TimeUnit, DatepickerOptions } from './datepicker.types';
+
+
 @Injectable()
 export class DatepickerService {
-    validOptions = [
-            'configureOn',
-            'dropdownSelector',
-            'minuteStep',
-            'minView',
-            'modelType',
-            'parseFormat',
-            'renderOn',
-            'startView',
-            'screenReader'
-        ];
 
-
- validator (configuration: any): boolean {
-
-      var invalidOptions = Object.keys(configuration).filter(function (key) {
-        return (this.validOptions.indexOf(key) < 0)
-      })
-
-      if (invalidOptions.length) {
-        throw new Error('Invalid options: ' + invalidOptions.join(', '))
-      }
-
-      // Order of the elements in the validViews array is significant.
-      var validViews = ['minute', 'hour', 'day', 'month', 'year']
-
-      if (validViews.indexOf(configuration.startView) < 0) {
-        throw new Error('invalid startView value: ' + configuration.startView)
-      }
-
-      if (validViews.indexOf(configuration.minView) < 0) {
-        throw new Error('invalid minView value: ' + configuration.minView)
-      }
-
-      if (validViews.indexOf(configuration.minView) > validViews.indexOf(configuration.startView)) {
-        throw new Error('startView must be greater than minView')
-      }
-
-      if (typeof configuration.minuteStep !== 'number') {
-        throw new Error('minuteStep must be numeric')
-      }
-      if (configuration.minuteStep <= 0 || configuration.minuteStep >= 60) {
-        throw new Error('minuteStep must be greater than zero and less than 60')
-      }
-      if (!configuration.configureOn || (typeof configuration.configureOn !== 'string')) {
-        throw new Error('configureOn must be a string')
-      }
-      if (configuration.configureOn.length < 1) {
-        throw new Error('configureOn must not be an empty string')
-      }
-      if (configuration.renderOn !== null && (configuration.renderOn !== 'string')) {
-        throw new Error('renderOn must be a string')
-      }
-      if (configuration.renderOn.length < 1) {
-        throw new Error('renderOn must not be an empty string')
-      }
-      if (!configuration.modelType || (typeof configuration.modelType === 'string')) {
-        throw new Error('modelType must be a string')
-      }
-      if (configuration.modelType.length < 1) {
-        throw new Error('modelType must not be an empty string')
-      }
-      if (configuration.modelType !== 'Date' && configuration.modelType !== 'moment' && configuration.modelType !== 'milliseconds') {
-        // modelType contains string format, overriding parseFormat with modelType
-        configuration.parseFormat = configuration.modelType
-      }
-      if (!configuration.dropdownSelector || (typeof configuration.dropdownSelector === 'string')) {
-        throw new Error('dropdownSelector must be a string')
-      }
-
-      /* istanbul ignore next */
-    //   if (configuration.dropdownSelector !== null && ((typeof jQuery === 'undefined') || (typeof jQuery().dropdown !== 'function'))) {
-    //     $log.error('Please DO NOT specify the dropdownSelector option unless you are using jQuery AND Bootstrap.js. ' +
-    //       'Please include jQuery AND Bootstrap.js, or write code to close the dropdown in the on-set-time callback. \n\n' +
-    //       'The dropdownSelector configuration option is being removed because it will not function properly.')
-    //     delete configuration.dropdownSelector
-    //   }
-      return true;
+    adjustCursor(focus: number, cursor: moment.Moment, by: number): void {
+        switch(focus) {
+            case TimeUnit.YEAR:
+                cursor.add(by * 12, "year");
+                break;
+            case TimeUnit.MONTH:
+                cursor.add(by, "year");
+                break;
+            case TimeUnit.DAY:
+                cursor.add(by, "month");
+                break;
+            case TimeUnit.HOUR:
+                cursor.add(by, "day");
+                break;
+            case TimeUnit.MINUTE:
+                cursor.add(by, "hour");
+                break;
+            default:                 
+        }
     }
 
+
+    createCalendar(focus: number, cursor: moment.Moment, selectedDate: DateModel, options: DatepickerOptions): Array<DateModel | Array<DateModel>> {
+        const now = moment();
+        
+        let times: Array<DateModel | Array<DateModel>> = [];
+        switch (focus) {
+            case TimeUnit.YEAR: {
+                let t = moment(cursor).add(-5, "year");
+                for (let i=0; i < 12; i++) {
+                    let active = now.isSame(t, "year");
+                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "year");
+                    let disabled = (options.future)? now.diff(t, "year") > 0 : (options.past) ? now.diff(t) < 1 : false;
+                    let date = new DateModel(moment(t), active, selected, disabled);
+
+                    t.add(1, "year");
+                    times.push(date);
+                }
+            } break;
+            case TimeUnit.MONTH: {
+                let t = moment(cursor).month(0);
+                for (let i=0; i < 12; i++) {
+                    let active = now.isSame(t, "month");
+                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "month"); 
+                    let disabled = (options.future)? now.diff(t, "month") > 0 : (options.past) ? now.diff(t) < 1 : false;
+                    let date = new DateModel(moment(t), active, selected,  disabled);
+
+                    t.add(1, "month");
+                    times.push(date);
+                }
+            }  break;
+            case TimeUnit.DAY: {
+                let firstOfMonth = moment(cursor).date(1);
+                let t = moment(firstOfMonth).day(0);
+                // Leave extra room of previous month if month starts on Sunday
+                if (firstOfMonth.day() === 0) {
+                    t.add(-7, 'day');
+                }
+                let weeks: Array<Array<DateModel>> = [[], [], [], [], [], []];
+                for (let week of weeks) {
+                    for (let i=0; i < 7; i++) {
+                        let active = now.isSame(t, "day");
+                        let selected = !selectedDate? false : t.isSame(selectedDate.moment, "day"); 
+                        let disabled = (options.future)? now.diff(t, "day") > 0 : ((options.past) ? now.diff(t) < 1 : false);
+                        let date = new DateModel(moment(t), active, selected, disabled);
+
+                        week.push(date);
+                        t.add(1, 'day');
+                    }
+                }
+                times = weeks;
+            }  break;
+            case TimeUnit.HOUR: {
+                let t = moment(cursor).hour(0);
+                for (let i=0; i < 24; i++) {
+                    let active = now.isSame(t, "hour");
+                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "hour"); 
+                    let disabled = (options.future)? now.diff(t, "hour") > 0 : (options.past) ? now.diff(t) < 1 : false;
+                    let date = new DateModel(moment(t), active, selected, disabled);
+                    t.add(1, "hour");
+                    times.push(date);
+                }
+            }  break;
+            case TimeUnit.MINUTE: {
+                let t = moment(cursor).minute(0);
+                for (let i=0; i < 12; i++) {
+                    let active = now.isSame(t, "minute");
+                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "minute"); 
+                    let disabled = (options.future)? now.diff(t, "minute") > 0 : (options.past) ? now.diff(t) < 1 : false;
+                    let date = new DateModel(moment(t), active, selected, disabled);
+                    t.add(5, "minute");
+                    times.push(date);
+                }
+            }  break;
+        }
+
+        return times;
+    }
 }

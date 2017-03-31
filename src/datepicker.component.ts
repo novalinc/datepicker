@@ -3,14 +3,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import * as moment from 'moment';
 
-import { DateModel } from './datepicker.types';
+import { DateModel, TimeUnit, DatepickerOptions } from './datepicker.types';
+import { DatepickerService } from './datepicker.service';
 
 
-const YEAR = 0;
-const MONTH = 1;
-const DAY = 2;
-const HOUR = 3;
-const MINUTE = 4;
 
 @Component({
     selector: 'nl-datepicker',
@@ -18,7 +14,7 @@ const MINUTE = 4;
 <!-- tabindex="0" SHOULD NOT be hard coded like this -->
 <div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()">
         <div class="datepicker-group" (click)="onClick()">
-            <div class="datepicker-control" [innerHTML]="prettyDate"></div>
+            <div class="datepicker-control text-center" [innerHTML]="prettyDate"></div>
             <div class="datepicker-icon">
                 <div class="glyphicon glyphicon-calendar center-block"></div>
             </div>
@@ -29,7 +25,7 @@ const MINUTE = 4;
                     <thead>
                         <tr>
                             <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Minute"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Minute">{{ viewTitle() }}</th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Minute">{{ viewTitle }}</th>
                             <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Minute"></span></th>
                         </tr>
                     </thead>
@@ -52,7 +48,7 @@ const MINUTE = 4;
                     <thead>
                         <tr>
                             <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Hour"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Hour">{{ viewTitle() }}</th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Hour">{{ viewTitle }}</th>
                             <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Hour"></span></th>
                         </tr>
                     </thead>
@@ -75,7 +71,7 @@ const MINUTE = 4;
                     <thead>
                         <tr>
                             <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Month"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Month">{{ viewTitle() }}</th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Month">{{ viewTitle }}</th>
                             <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Month"></span></th>
                         </tr>
                         <tr>
@@ -83,7 +79,7 @@ const MINUTE = 4;
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let week of weeks">
+                        <tr *ngFor="let week of times">
                             <td *ngFor="let date of week"
                                 (click)="zoomIn(date, $event)" class="day"
                                 [ngClass]="{active: date.selected, today: date.active, blurred: false, disabled: date.disabled}">{{ date.dayOfMonth() }}</td>
@@ -96,7 +92,7 @@ const MINUTE = 4;
                     <thead>
                         <tr>
                             <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Year"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Year">{{ viewTitle() }}</th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Year">{{ viewTitle }}</th>
                             <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Year"></span></th>
                         </tr>
                     </thead>
@@ -119,7 +115,7 @@ const MINUTE = 4;
                     <thead>
                         <tr>
                             <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Decade"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Decade">{{ viewTitle() }}</th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Decade">{{ viewTitle }}</th>
                             <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Decade"></span></th>
                         </tr>
                     </thead>
@@ -524,7 +520,7 @@ line-height: 1.8em !important;
 .datepicker-icon {
     vertical-align: middle;
     text-align: center;
-    font-size: 17pt;
+    font-size: 15pt;
 }
 
 .sr-only {
@@ -545,53 +541,46 @@ border: 0;
     }]
 })
 export class DatepickerComponent implements ControlValueAccessor, OnInit {
-    @Input() format: string; // YYYY-MM-DD HH:mm:ss
-    @Input() temporal: string; // date*, timestamp, time
-    @Input() locale: string; // use ISO standards here eg. en.ZA
     @Input() required: any;
-    @Input() minDate: Date; // based of format
-    @Input() maxDate: Date; // based of format
-    @Input() future: any;
-    @Input() past: any;
+    @Input() options: DatepickerOptions;
+
 
     maxThreshold: number;
     minThreshold: number;
     opened: boolean;
     months: string[] = moment.months();
     days: string[] = moment.weekdaysMin();
-    weeks: Array<Array<DateModel>>;
-    times: Array<DateModel>;
+    times: Array<DateModel | Array<DateModel>>;
 
-    constructor() {
-        this.weeks = [];
+    constructor(private _service: DatepickerService) {
         this.times = [];
         this._cursor = moment();
     }
 
     ngOnInit(): void {
-        if ((this.future !== undefined) && (this.past !== undefined)) {
+        if ((this.options.future !== undefined) && (this.options.past !== undefined)) {
             console.warn("Cannot have both 'future' and 'past' directives");
         }
-        switch(this.temporal) {
+        switch(this.options.temporal) {
             case "date": 
-                this.maxThreshold = DAY;
-                this.minThreshold = YEAR;
-                this._focus = DAY;
+                this.maxThreshold = TimeUnit.DAY;
+                this.minThreshold = TimeUnit.YEAR;
+                this._focus = TimeUnit.DAY;
                 break;
-            case "timestamp": 
-                this.maxThreshold = MINUTE;
-                this.minThreshold = YEAR;
-                this._focus = DAY;
+            case "dateTime": 
+                this.maxThreshold = TimeUnit.MINUTE;
+                this.minThreshold = TimeUnit.YEAR;
+                this._focus = TimeUnit.DAY;
                 break;
             case "time": 
-                this.maxThreshold = MINUTE;
-                this.minThreshold = HOUR;
-                this._focus = HOUR;
+                this.maxThreshold = TimeUnit.MINUTE;
+                this.minThreshold = TimeUnit.HOUR;
+                this._focus = TimeUnit.HOUR;
                 break;
             default:
-                this.maxThreshold = MINUTE;
-                this.minThreshold = YEAR;
-                this._focus = DAY;
+                this.maxThreshold = TimeUnit.MINUTE;
+                this.minThreshold = TimeUnit.YEAR;
+                this._focus = TimeUnit.DAY;
                 break;
         }
 
@@ -630,7 +619,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             this.propagateChange(this._selectedDate);
         }
         this._selectedDate = dateModel;
-        this._cursor = moment(dateModel.getMoment()); //change point of focus to the selected date
+        this._cursor = moment(dateModel.moment); //change point of focus to the selected date
         if (this._focus === this.maxThreshold) {
             this.opened = false;
             return;
@@ -650,7 +639,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
     get prettyDate(): string {
         if (this.selectedDate) {
-            let m = this.selectedDate.getMoment();
+            let m = this.selectedDate.moment;
 
             let 
             year = m.format("YYYY"), 
@@ -661,17 +650,17 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             minute =  m.format("mm"),
             marker = m.format("a");
 
-            switch(this.temporal) {
+            switch(this.options.temporal) {
                 case "date": 
                     return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>`;
-                case "timestamp": 
+                case "dateTime": 
                     return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
                     <div><strong>${hour}</strong>:${minute}${marker}</div>
                     `;
                 case "time":
                     return `<div><strong>${hour}</strong>:${minute}${marker}</div>`;
                 default:
-                console.warn("Invalid temporal: ", this.temporal);
+                console.warn("Invalid temporal: ", this.options.temporal);
                     return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
                     <div><strong>${hour}</strong>:${minute}${marker}</div>
                     `;
@@ -680,23 +669,23 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         return "Please select";
     }
 
-    viewTitle(): string {
+   get viewTitle(): string {
         switch(this._focus) {
-            case YEAR: {
+            case TimeUnit.YEAR: {
                 let start = this._cursor.year() - 5;
                 let end = start + 11;
                 return start + " - " + end;
             }
-            case MONTH: {
+            case TimeUnit.MONTH: {
                 return this._cursor.format("YYYY");
             }
-            case DAY: {
+            case TimeUnit.DAY: {
                 return this._cursor.format("MMM YYYY");
             }
-            case HOUR: {
+            case TimeUnit.HOUR: {
                 return this._cursor.format("MMM D, YYYY");
             }
-            case MINUTE: {
+            case TimeUnit.MINUTE: {
                 return this._cursor.format("MMM D, YYYY @ HH:mm");
             }
             default: {
@@ -710,7 +699,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
 
     nextView(): void {
-        this.adjustSelectedDate(1);        
+        this.adjustSelectedDate(1);
         this.createCalendar();
     }
 
@@ -718,7 +707,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.adjustSelectedDate(-1);        
         this.createCalendar();
     }
-
 
     onClick(): void {
         this.opened = !this.opened;
@@ -746,105 +734,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     private readonly VIEWS: Array<string> = ["years", "months", "days", "hours", "minutes"];
 
     private adjustSelectedDate(by: number): void {
-        switch(this._focus) {
-            case YEAR:
-                this._cursor.add(by * 12, "year");
-                break;
-            case MONTH:
-                this._cursor.add(by, "year");
-                break;
-            case DAY:
-                this._cursor.add(by, "month");
-                break;
-            case HOUR:
-                this._cursor.add(by, "day");
-                break;
-            case MINUTE:
-                this._cursor.add(by, "hour");
-                break;
-            default:                 
-        }
+        this._service.adjustCursor(this._focus, this._cursor, by);
     }
 
     private createCalendar(): void {
-        const now = moment();
-
-        switch (this._focus) {
-            case YEAR: {
-                this.times = [];
-                let t = moment(this._cursor).add(-5, "year");
-                for (let i=0; i < 12; i++) {
-                    let active = now.isSame(t, "year");
-                    let selected = !this._selectedDate? false : t.isSame(this._selectedDate.getMoment(), "year");
-                    let disabled = (this.future !== undefined)? now.diff(t, "year") > 0 : (this.past !== undefined) ? now.diff(t) < 1 : false;
-                    let date = new DateModel(moment(t), active, selected, disabled);
-
-                    t.add(1, "year");
-                    this.times.push(date);
-                }
-            }
-            break;
-            case MONTH: {
-                this.times = [];
-                let t = moment(this._cursor).month(0);
-                for (let i=0; i < 12; i++) {
-                    let active = now.isSame(t, "month");
-                    let selected = !this._selectedDate? false : t.isSame(this._selectedDate.getMoment(), "month"); 
-                    let disabled = (this.future !== undefined)? now.diff(t, "month") > 0 : (this.past !== undefined) ? now.diff(t) < 1 : false;
-                    let date = new DateModel(moment(t), active, selected,  disabled);
-
-                    t.add(1, "month");
-                    this.times.push(date);
-                }
-            }
-            break;
-            case DAY: {
-                let firstOfMonth = moment(this._cursor).date(1);
-                let t = moment(firstOfMonth).day(0);
-                // Leave extra room of previous month if month starts on Sunday
-                if (firstOfMonth.day() === 0) {
-                    t.add(-7, 'day');
-                }
-                this.weeks = [[], [], [], [], [], []];
-                for (let week of this.weeks) {
-                    for (let i=0; i < 7; i++) {
-                        let active = now.isSame(t, "day");
-                        let selected = !this._selectedDate? false : t.isSame(this._selectedDate.getMoment(), "day"); 
-                        let disabled = (this.future !== undefined)? now.diff(t, "day") > 0 : ((this.past !== undefined) ? now.diff(t) < 1 : false);
-                        let date = new DateModel(moment(t), active, selected, disabled);
-
-                        week.push(date);
-                        t.add(1, 'day');
-                    }
-                }
-            }
-            break;
-            case HOUR: {//Hour
-                this.times = [];
-                let t = moment(this._cursor).hour(0);
-                for (let i=0; i < 24; i++) {
-                    let active = now.isSame(t, "hour");
-                    let selected = !this._selectedDate? false : t.isSame(this._selectedDate.getMoment(), "hour"); 
-                    let disabled = (this.future !== undefined)? now.diff(t, "hour") > 0 : (this.past !== undefined) ? now.diff(t) < 1 : false;
-                    let date = new DateModel(moment(t), active, selected, disabled);
-                    t.add(1, "hour");
-                    this.times.push(date);
-                }
-            }
-            break;
-            case MINUTE: {//Minute
-                this.times = [];
-                let t = moment(this._cursor).minute(0);
-                for (let i=0; i < 12; i++) {
-                    let active = now.isSame(t, "minute");
-                    let selected = !this._selectedDate? false : t.isSame(this._selectedDate.getMoment(), "minute"); 
-                    let disabled = (this.future !== undefined)? now.diff(t, "minute") > 0 : (this.past !== undefined) ? now.diff(t) < 1 : false;
-                    let date = new DateModel(moment(t), active, selected, disabled);
-                    t.add(5, "minute");
-                    this.times.push(date);
-                }
-            }
-            break;
-        }
+        this.times = this._service.createCalendar(this._focus, this._cursor, this._selectedDate, this.options);
     }
 }
