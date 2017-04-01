@@ -15,6 +15,7 @@ import { DatepickerService } from './datepicker.service';
 <div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()">
         <div class="datepicker-group" (click)="onClick()">
             <div class="datepicker-control text-center" [innerHTML]="prettyDate"></div>
+            <div *ngIf="!selectedDate" class="datepicker-control text-muted text-center" [innerText]="placeholder"></div>
             <div class="datepicker-icon">
                 <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': !isTime, 'glyphicon-time': isTime, 'center-block': true}"></div>
             </div>
@@ -462,6 +463,10 @@ line-height: 1.8em !important;
     font-size: 15pt;
 }
 
+.datepicker-placeholder {
+    color: #ababab;
+}
+
 .sr-only {
 position: absolute;
 width: 1px;
@@ -612,7 +617,12 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
                     `;
             } 
         }
-        return this.options.placeHolder;
+
+        return "";
+    }
+
+    get placeholder(): string {
+        return this.options.placeholder;
     }
 
    get viewTitle(): string {
