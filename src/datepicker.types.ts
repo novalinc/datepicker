@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-export const enum TimeUnit {
+export enum TimeUnit {
   YEAR = 0,
   MONTH = 1,
   DAY = 2,
@@ -8,36 +8,22 @@ export const enum TimeUnit {
   MINUTE = 4
 }
 
+export enum TemporalType {
+  DATE, TIME, TIMESTAMP
+}
+
 export class DateModel {
   active: boolean; //current time
   selected: boolean;
   disabled: boolean;
+  events: Array<string>;
 
   constructor(moment: moment.Moment, active?: boolean, selected?: boolean, disabled?: boolean) {
     this._moment = moment;
     this.active = active;
     this.disabled = (disabled === undefined) ? false : disabled;
     this.selected = selected;
-  }
-
-  year(): number {
-    return this.moment.year();
-  }
-
-  monthOfYear(): string {
-    return this.moment.format("MMM");
-  }
-
-  dayOfMonth(): number {
-    return this.moment.date();
-  }
-
-  hourOfDay(): string {
-    return this.moment.format("HH:00");
-  }
-
-  minuteOfHour(): string {
-    return this.moment.format("HH:mm");
+    this.events = [];
   }
 
   get moment(): moment.Moment {
@@ -49,16 +35,20 @@ export class DateModel {
 
 export class DatepickerOptions {
   future: boolean;
-  locale: string; //en-ZA
-  use24Hour: boolean;
+  disabled: boolean;
+  disabledDates: Array<Date>;
+  locale: string;
   minDate: Date;
   maxDate: Date;
-  temporal: string; // date, time, dateTime
   past: boolean;
+  placeHolder: string;
+  required: boolean;
+  temporal: TemporalType;
+  use24Hour: boolean;
 
   constructor() {
-    this.locale = "en-ZA";
+    this.locale = moment.locale();
     this.use24Hour = false;
-    this.temporal = "date";
+    this.temporal = TemporalType.DATE;
   }
 }

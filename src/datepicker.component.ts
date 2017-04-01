@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import * as moment from 'moment';
 
-import { DateModel, TimeUnit, DatepickerOptions } from './datepicker.types';
+import { DateModel, TimeUnit, DatepickerOptions, TemporalType } from './datepicker.types';
 import { DatepickerService } from './datepicker.service';
 
 
@@ -16,63 +16,17 @@ import { DatepickerService } from './datepicker.service';
         <div class="datepicker-group" (click)="onClick()">
             <div class="datepicker-control text-center" [innerHTML]="prettyDate"></div>
             <div class="datepicker-icon">
-                <div class="glyphicon glyphicon-calendar center-block"></div>
+                <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': !isTime, 'glyphicon-time': isTime, 'center-block': true}"></div>
             </div>
         </div>
         <div *ngIf="opened" class="nldp-widget dropdown-menu" style="display: block; bottom: auto;">
-            <div *ngIf="currentView === 'minutes'" class="datepicker-minutes">
+            <div *ngIf="currentView === 'day'" class="datepicker-day">
                 <table class="table-condensed">
                     <thead>
                         <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Minute"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Minute">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Minute"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="7">
-                                <span class="hour"
-                                    *ngFor="let time of times"
-                                    [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time, $event)">
-                                    {{ time.minuteOfHour() }}
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="currentView === 'hours'" class="datepicker-hours">
-                <table class="table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Hour"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Hour">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Hour"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="7">
-                                <span class="hour"
-                                    *ngFor="let time of times"
-                                    [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time, $event)">
-                                    {{ time.hourOfDay() }}
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="currentView === 'days'" class="datepicker-days">
-                <table class="table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Month"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Month">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Month"></span></th>
+                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
+                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
                         </tr>
                         <tr>
                             <th *ngFor="let day of days" class="dow">{{ day }}</th>
@@ -81,52 +35,37 @@ import { DatepickerService } from './datepicker.service';
                     <tbody>
                         <tr *ngFor="let week of times">
                             <td *ngFor="let date of week"
-                                (click)="zoomIn(date, $event)" class="day"
-                                [ngClass]="{active: date.selected, today: date.active, blurred: false, disabled: date.disabled}">{{ date.dayOfMonth() }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="currentView === 'months'" class="datepicker-months">
-                <table class="table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Year"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Year">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Year"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="7">
-                                <span class="month"
-                                    *ngFor="let time of times"
-                                    [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time, $event)">
-                                    {{ time.monthOfYear() }}
-                                </span>
+                                class="day"
+                                (click)="zoomIn(date, $event)" 
+                                [ngClass]="{active: date.selected, today: date.active, blurred: false, disabled: date.disabled}"
+                                [innerText]="getTimeUnitValue(date)">
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div *ngIf="currentView === 'years'" class="datepicker-years">
+            <div *ngIf="currentView != 'day'" class="datepicker-{{currentView}}">
                 <table class="table-condensed">
                     <thead>
                         <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left" title="Previous Decade"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5" title="Select Decade">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right" title="Next Decade"></span></th>
+                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
+                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
+                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
                         </tr>
+                        <tr>
+                            <th colspan="7">
+                                Select {{currentView}}
+                            </th>
+                        </tr>                        
                     </thead>
                     <tbody>
                         <tr>
                             <td colspan="7">
-                                <span class="year"
+                                <span 
                                     *ngFor="let time of times"
                                     [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time, $event)">
-                                    {{ time.year() }}
+                                    (click)="zoomIn(time, $event)"
+                                    [innerText]="getTimeUnitValue(time)">
                                 </span>
                             </td>
                         </tr>
@@ -558,21 +497,28 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
 
     ngOnInit(): void {
+
+        if (!this.options) {
+            // Use defaults
+            console.debug("Using default options because none were specified");
+            this.options = new DatepickerOptions();
+        }
+
         if ((this.options.future !== undefined) && (this.options.past !== undefined)) {
             console.warn("Cannot have both 'future' and 'past' directives");
         }
         switch(this.options.temporal) {
-            case "date": 
+            case TemporalType.DATE: 
                 this.maxThreshold = TimeUnit.DAY;
                 this.minThreshold = TimeUnit.YEAR;
                 this._focus = TimeUnit.DAY;
                 break;
-            case "dateTime": 
+            case TemporalType.TIMESTAMP: 
                 this.maxThreshold = TimeUnit.MINUTE;
                 this.minThreshold = TimeUnit.YEAR;
                 this._focus = TimeUnit.DAY;
                 break;
-            case "time": 
+            case TemporalType.TIME: 
                 this.maxThreshold = TimeUnit.MINUTE;
                 this.minThreshold = TimeUnit.HOUR;
                 this._focus = TimeUnit.HOUR;
@@ -651,13 +597,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             marker = m.format("a");
 
             switch(this.options.temporal) {
-                case "date": 
+                case TemporalType.DATE: 
                     return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>`;
-                case "dateTime": 
+                case TemporalType.TIMESTAMP: 
                     return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
                     <div><strong>${hour}</strong>:${minute}${marker}</div>
                     `;
-                case "time":
+                case TemporalType.TIME:
                     return `<div><strong>${hour}</strong>:${minute}${marker}</div>`;
                 default:
                 console.warn("Invalid temporal: ", this.options.temporal);
@@ -666,7 +612,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
                     `;
             } 
         }
-        return "Please select";
+        return this.options.placeHolder;
     }
 
    get viewTitle(): string {
@@ -698,6 +644,33 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         return this.VIEWS[this._focus];
     }
 
+    get isTime(): boolean {
+        return this.options.temporal === TemporalType.TIME;
+    }
+
+    getTimeUnitValue(dateModel: DateModel) : string {
+
+        if (!dateModel) {
+            console.error("Invalid object passed");
+            return "Err";
+        }
+
+        let m = dateModel.moment;
+        switch(this._focus) {
+            case TimeUnit.YEAR:
+                return m.format("YYYY");
+            case TimeUnit.MONTH:
+                return m.format("MMM");
+            case TimeUnit.DAY:
+                return m.date() + "";
+            case TimeUnit.HOUR:
+                return m.format("HH");
+            case TimeUnit.MINUTE:
+                return m.format("mm");
+
+        }
+    }
+
     nextView(): void {
         this.adjustSelectedDate(1);
         this.createCalendar();
@@ -725,13 +698,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
     private _cursor: moment.Moment;
 
-    private _focus: number;
+    private _focus: TimeUnit;
 
     private propagateChange = (e: any) => { };
 
     private propagateTouch = (e: any) => { };
 
-    private readonly VIEWS: Array<string> = ["years", "months", "days", "hours", "minutes"];
+    private readonly VIEWS: Array<string> = ["year", "month", "day", "hour", "minute"];
 
     private adjustSelectedDate(by: number): void {
         this._service.adjustCursor(this._focus, this._cursor, by);
