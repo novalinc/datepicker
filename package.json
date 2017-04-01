@@ -23,7 +23,6 @@
   "dependencies": {
     "font-awesome": "4.7.0",
     "moment": "^2.17.1",
-    "//": "TODO see of this is pulled in when api is consumed",
     "bootstrap": "^3.3.7"
   },
   "devDependencies": {
