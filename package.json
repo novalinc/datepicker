@@ -1,6 +1,6 @@
 {
   "name": "@novalinc/datepicker",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Date and time pickers for Angular 2/4",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,8 @@
   "license": "ISC",
   "dependencies": {
     "font-awesome": "4.7.0",
-    "moment": "^2.17.1", "//": "TODO see of this is pulled in when api is consumed",
+    "moment": "^2.17.1",
+    "//": "TODO see of this is pulled in when api is consumed",
     "bootstrap": "^3.3.7"
   },
   "devDependencies": {
