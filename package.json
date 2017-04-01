@@ -1,6 +1,6 @@
 {
   "name": "@novalinc/datepicker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Date and time pickers for Angular 2/4",
   "main": "index.js",
   "scripts": {
