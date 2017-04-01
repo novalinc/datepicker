@@ -55,16 +55,23 @@ export class FeatureModule { }
 In your application's component file
 ```typescript
 import { Component } from '@angular/core';
-import { DateModel } from '@novalinc/datepicker';
+import { DateModel, DatepickerOptions, TemporalType } from '@novalinc/datepicker';
  
 @Component({
   selector: 'ft-comp',
   templateUrl: 'feature.component.html'
 })
 
-export class AppComponent {
-  departure: DateModel;
+export class FeatureComponent implements OnInit {
+    departure: DateModel;
+    departureOptions: DatepickerOptions;
 
+    ngOnInit(): void {
+        // Set options for the datepicker
+        this.departureOptions = new DatepickerOptions();
+        this.departureOptions.temporal = TemporalType.TIMESTAMP; 
+        this.departureOptions.placeholder = "Depart date";
+    }
 }
 ```
 In your component's view (html)
@@ -74,7 +81,7 @@ In your component's view (html)
     <div class="row">
         <div class="col-sm-6">
             <h4>Selecting both date and time e.g. Departure time</h4>
-            <nl-datepicker name="departure" temporal="timestamp" [(ngModel)]="departure"></nl-datepicker>
+            <nl-datepicker name="departure" [options]="departureOptions" [(ngModel)]="departure"></nl-datepicker>
         </div>
         <div class="col-sm-6">
 
