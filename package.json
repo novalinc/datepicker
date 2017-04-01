@@ -20,6 +20,11 @@
     "name": "Hlulani Mhlongo"
   },
   "license": "ISC",
+  "dependencies": {
+    "font-awesome": "4.7.0",
+    "moment": "^2.17.1", "//": "TODO see of this is pulled in when api is consumed",
+    "bootstrap": "^3.3.7"
+  },
   "devDependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
@@ -30,10 +35,7 @@
     "@types/es6-shim": "^0.31.32",
     "@types/jasmine": "^2.5.40",
     "@types/selenium-webdriver": "^2.53.39",
-    "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
-    "font-awesome": "4.7.0",
-    "moment": "^2.17.1",
     "codelyzer": "~2.0.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
