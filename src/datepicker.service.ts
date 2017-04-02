@@ -30,16 +30,16 @@ export class DatepickerService {
     }
 
 
-    createCalendar(focus: number, cursor: moment.Moment, selectedDate: DateModel, options: DatepickerOptions): Array<DateModel | Array<DateModel>> {
+    createCalendar(focus: number, cursor: moment.Moment, selectedDate: Date, options: DatepickerOptions): Array<DateModel | Array<DateModel>> {
         const now = moment();
-        
+        let selectedMoment = selectedDate? moment(selectedDate) : null;
         let times: Array<DateModel | Array<DateModel>> = [];
         switch (focus) {
             case TimeUnit.YEAR: {
                 let t = moment(cursor).add(-5, "year");
                 for (let i=0; i < 12; i++) {
                     let active = now.isSame(t, "year");
-                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "year");
+                    let selected = !selectedMoment? false : t.isSame(selectedMoment, "year");
                     let disabled = (options.future)? now.diff(t, "year") > 0 : (options.past) ? now.diff(t) < 1 : false;
                     let date = new DateModel(moment(t), active, selected, disabled);
 
@@ -51,7 +51,7 @@ export class DatepickerService {
                 let t = moment(cursor).month(0);
                 for (let i=0; i < 12; i++) {
                     let active = now.isSame(t, "month");
-                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "month"); 
+                    let selected = !selectedMoment? false : t.isSame(selectedMoment, "month"); 
                     let disabled = (options.future)? now.diff(t, "month") > 0 : (options.past) ? now.diff(t) < 1 : false;
                     let date = new DateModel(moment(t), active, selected,  disabled);
 
@@ -70,7 +70,7 @@ export class DatepickerService {
                 for (let week of weeks) {
                     for (let i=0; i < 7; i++) {
                         let active = now.isSame(t, "day");
-                        let selected = !selectedDate? false : t.isSame(selectedDate.moment, "day"); 
+                        let selected = !selectedMoment? false : t.isSame(selectedMoment, "day"); 
                         let disabled = (options.future)? now.diff(t, "day") > 0 : ((options.past) ? now.diff(t) < 1 : false);
                         let date = new DateModel(moment(t), active, selected, disabled);
 
@@ -84,7 +84,7 @@ export class DatepickerService {
                 let t = moment(cursor).hour(0);
                 for (let i=0; i < 24; i++) {
                     let active = now.isSame(t, "hour");
-                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "hour"); 
+                    let selected = !selectedMoment? false : t.isSame(selectedMoment, "hour"); 
                     let disabled = (options.future)? now.diff(t, "hour") > 0 : (options.past) ? now.diff(t) < 1 : false;
                     let date = new DateModel(moment(t), active, selected, disabled);
                     t.add(1, "hour");
@@ -95,7 +95,7 @@ export class DatepickerService {
                 let t = moment(cursor).minute(0);
                 for (let i=0; i < 12; i++) {
                     let active = now.isSame(t, "minute");
-                    let selected = !selectedDate? false : t.isSame(selectedDate.moment, "minute"); 
+                    let selected = !selectedMoment? false : t.isSame(selectedMoment, "minute"); 
                     let disabled = (options.future)? now.diff(t, "minute") > 0 : (options.past) ? now.diff(t) < 1 : false;
                     let date = new DateModel(moment(t), active, selected, disabled);
                     t.add(5, "minute");

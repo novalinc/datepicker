@@ -35,11 +35,11 @@ import { DatepickerService } from './datepicker.service';
                     </thead>
                     <tbody>
                         <tr *ngFor="let week of times">
-                            <td *ngFor="let date of week"
+                            <td *ngFor="let day of week"
                                 class="day"
-                                (click)="zoomIn(date, $event)" 
-                                [ngClass]="{active: date.selected, today: date.active, blurred: false, disabled: date.disabled}"
-                                [innerText]="getTimeUnitValue(date)">
+                                (click)="zoomIn(day)" 
+                                [ngClass]="{active: day.selected, today: day.active, blurred: false, disabled: day.disabled}"
+                                [innerText]="getTimeUnitValue(day)">
                             </td>
                         </tr>
                     </tbody>
@@ -65,7 +65,7 @@ import { DatepickerService } from './datepicker.service';
                                 <span 
                                     *ngFor="let time of times"
                                     [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time, $event)"
+                                    (click)="zoomIn(time)"
                                     [innerText]="getTimeUnitValue(time)">
                                 </span>
                             </td>
@@ -537,15 +537,15 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
     }
 
-    get selectedDate(): DateModel {
+    get selectedDate(): Date {
         return this._selectedDate;
     }
 
-    set selectedDate(val: DateModel) {
+    set selectedDate(val: Date) {
         this._selectedDate = val;
     }
 
-    writeValue(model: DateModel) : void {
+    writeValue(model: Date) : void {
         if (model !== undefined) { 
             this.selectedDate = model;
         }
@@ -559,16 +559,21 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.propagateTouch = fn;
     }
 
-    zoomIn(dateModel: DateModel, event: any): void {
+    zoomIn(dateModel: DateModel): void {
 
+        if (!dateModel) {
+            console.error("Could not ZoomIn there is a problem");
+        }
+
+        let date = dateModel.toDate();
         if (dateModel.disabled) {
-            console.warn("Date '" + dateModel.toDate + "' is disabled");
+            console.warn("Date '" + date + "' is disabled");
             return;
         }
 
-        if (this._selectedDate !== dateModel) {
-            this._selectedDate = dateModel;
-            this._cursor = moment(dateModel.moment); //change point of focus to the selected date
+        if (this._selectedDate !== date) {
+            this._selectedDate = date;
+            this._cursor = moment(date); //change point of focus to the selected date
             this.propagateChange(this._selectedDate);
         }
 
@@ -591,7 +596,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
     get prettyDate(): string {
         if (this.selectedDate) {
-            let m = this.selectedDate.moment;
+            let m = moment(this.selectedDate);
 
             let 
             year = m.format("YYYY"), 
@@ -705,7 +710,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.opened = false;
     }
 
-    private _selectedDate: DateModel;
+    private _selectedDate: Date;
 
     private _cursor: moment.Moment;
 
