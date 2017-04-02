@@ -18,8 +18,12 @@ export class DateModel {
   disabled: boolean;
   agendars: Array<string>;
 
-  constructor(moment: moment.Moment, active?: boolean, selected?: boolean, disabled?: boolean) {
-    this._moment = moment;
+  /**
+   * @param m time unit 
+   * @param active current time
+   */
+  constructor(m: moment.Moment | Date | number, active?: boolean, selected?: boolean, disabled?: boolean) {
+    this._moment = moment(m);
     this.active = active;
     this.disabled = (disabled === undefined) ? false : disabled;
     this.selected = selected;
