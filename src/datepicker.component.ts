@@ -562,15 +562,16 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     zoomIn(dateModel: DateModel, event: any): void {
 
         if (dateModel.disabled) {
-            console.warn("Disabled date");
+            console.warn("Date '" + dateModel.toDate + "' is disabled");
             return;
         }
 
         if (this._selectedDate !== dateModel) {
+            this._selectedDate = dateModel;
+            this._cursor = moment(dateModel.moment); //change point of focus to the selected date
             this.propagateChange(this._selectedDate);
         }
-        this._selectedDate = dateModel;
-        this._cursor = moment(dateModel.moment); //change point of focus to the selected date
+
         if (this._focus === this.maxThreshold) {
             this.opened = false;
             return;

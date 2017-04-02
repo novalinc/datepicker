@@ -34,11 +34,11 @@ export class DateModel {
     return this._moment;
   }
 
-  get utcDate(): Date {
+  toUtcDate(): Date {
     return this._moment.utc(true).toDate();
   }
 
-  get date(): Date {
+  toDate(): Date {
     return this._moment.toDate();
   }
 
