@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, Output, OnInit, forwardRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import * as moment from 'moment';
@@ -487,6 +487,7 @@ border: 0;
 export class DatepickerComponent implements ControlValueAccessor, OnInit {
     @Input() required: any;
     @Input() options: DatepickerOptions;
+    @Output() change: EventEmitter<Date> = new EventEmitter<Date>();
 
 
     maxThreshold: number;
@@ -571,10 +572,11 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             return;
         }
 
-        if (this._selectedDate !== date) {
+        if (!this._selectedDate || this._selectedDate.getTime() !== date.getTime()) {
             this._selectedDate = date;
             this._cursor = moment(date); //change point of focus to the selected date
             this.propagateChange(this._selectedDate);
+            this.change.emit(this._selectedDate);
         }
 
         if (this._focus === this.maxThreshold) {
