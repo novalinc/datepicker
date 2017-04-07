@@ -708,8 +708,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
 
     onBlur(): void {
-        // this.propagateTouch(this.selectedDate);
-        // this.opened = false;
+        this.propagateTouch(this.selectedDate);
+        this.opened = false;
     }
 
     private _selectedDate: Date;
