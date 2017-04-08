@@ -547,10 +547,12 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
 
     writeValue(model: Date) : void {
-        if (model !== undefined) { 
+        if (model) { 
             this.selectedDate = model;
             this._cursor = moment(model);
             this._defaultDate = model;
+        } else {
+            this._cursor = moment();
         }
     }
 
