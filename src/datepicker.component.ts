@@ -549,6 +549,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     writeValue(model: Date) : void {
         if (model !== undefined) { 
             this.selectedDate = model;
+            this._cursor = moment(model);
+            this._defaultDate = model;
         }
     }
 
@@ -699,6 +701,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.createCalendar();
     }
 
+    onClear() {
+        this._selectedDate = this._defaultDate;
+    }
+
     onClick(): void {
         this.opened = !this.opened;
     }
@@ -713,6 +719,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     }
 
     private _selectedDate: Date;
+
+    private _defaultDate: Date;
 
     private _cursor: moment.Moment;
 
