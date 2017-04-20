@@ -548,9 +548,16 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
     writeValue(model: Date) : void {
         if (model) { 
-            this.selectedDate = model;
             this._cursor = moment(model);
-            this._defaultDate = model;
+            // Convert to Date object
+            if (model instanceof Date) { // Date object
+                this.selectedDate = model;
+                this._defaultDate = model;
+            } else { // Epoch Unix Time Stamp
+                console.log("Passed in epoch unix timestamp '"+ model + "', I'm converting to Date object");
+                this.selectedDate = new Date(model);
+                this._defaultDate = this.selectedDate;
+            }
         } else {
             this._cursor = moment();
         }
@@ -575,7 +582,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             console.warn("Date '" + date + "' is disabled");
             return;
         }
-
+        
+        console.log("SELECTED: {}", this._selectedDate);
         if (!this._selectedDate || this._selectedDate.getTime() !== date.getTime()) {
             this._selectedDate = date;
             this._cursor = moment(date); //change point of focus to the selected date
