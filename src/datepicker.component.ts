@@ -617,9 +617,9 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             month = m.format("MMM"), 
             day = m.format("D"), 
             weekDay = m.format("ddd"), 
-            hour = m.format("h"), 
+            hour = this.options.use24Hour ? m.format("HH") : m.format("h"), 
             minute =  m.format("mm"),
-            marker = m.format("a");
+            marker = this.options.use24Hour ? '' : m.format("a");
 
             switch(this.options.temporal) {
                 case TemporalType.DATE: 
