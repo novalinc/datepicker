@@ -13,67 +13,70 @@ import { DatepickerService } from './datepicker.service';
     template: `
 <!-- tabindex="0" SHOULD NOT be hard coded like this -->
 <div class="ui-datepicker" tabindex="0" (focus)="onFocus()" (blur)="onBlur()">
-        <div class="datepicker-group" (click)="onClick()">
-            <div class="datepicker-control text-center" [innerHTML]="prettyDate"></div>
-            <div *ngIf="!selectedDate" class="datepicker-control text-muted text-center" [innerText]="placeholder"></div>
-            <div class="datepicker-icon">
-                <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': !isTime, 'glyphicon-time': isTime, 'center-block': true}"></div>
-            </div>
+    <div class="datepicker-group" (click)="onClick()">
+        <div class="datepicker-icon">
+            <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': !isTime, 'glyphicon-time': isTime, 'center-block': true}"></div>
         </div>
-        <div *ngIf="opened" class="nldp-widget dropdown-menu" style="top: auto; left: auto; ">
-            <div *ngIf="currentView === 'day'" class="datepicker-day">
-                <table class="table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
-                        </tr>
-                        <tr>
-                            <th *ngFor="let day of days" class="dow">{{ day }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let week of times">
-                            <td *ngFor="let day of week"
-                                class="day"
-                                (click)="zoomIn(day)" 
-                                [ngClass]="{active: day.selected, today: day.active, blurred: false, disabled: day.disabled}"
-                                [innerText]="getTimeUnitValue(day)">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="currentView != 'day'" class="datepicker-{{currentView}}">
-                <table class="table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
-                            <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
-                            <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
-                        </tr>
-                        <tr>
-                            <th colspan="7">
-                                Select {{currentView}}
-                            </th>
-                        </tr>                        
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="7">
-                                <span 
-                                    *ngFor="let time of times"
-                                    [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
-                                    (click)="zoomIn(time)"
-                                    [innerText]="getTimeUnitValue(time)">
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="datepicker-control">
+            <p class="datepicker-superval">{{prettyDate.top}}</p>
+            <p class="datepicker-subval">{{prettyDate.main}} <span class="datepicker-ampm">{{prettyDate.marker}}</span></p>
         </div>
+        <div *ngIf="!selectedDate" class="datepicker-control text-muted text-center" [innerText]="placeholder"></div>
+    </div>
+    <div *ngIf="opened" class="nldp-widget dropdown-menu" style="top: auto; left: auto; ">
+        <div *ngIf="currentView === 'day'" class="datepicker-day">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
+                        <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
+                        <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
+                    </tr>
+                    <tr>
+                        <th *ngFor="let day of days" class="dow">{{ day }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let week of times">
+                        <td *ngFor="let day of week"
+                            class="day"
+                            (click)="zoomIn(day)" 
+                            [ngClass]="{active: day.selected, today: day.active, blurred: false, disabled: day.disabled}"
+                            [innerText]="getTimeUnitValue(day)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="currentView != 'day'" class="datepicker-{{currentView}}">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" (click)="previousView()"><span class="glyphicon glyphicon-chevron-left"></span></th>
+                        <th class="datepicker-switch" (click)="zoomOut($event)" colspan="5">{{ viewTitle }}</th>
+                        <th class="next" (click)="nextView()"><span class="glyphicon glyphicon-chevron-right"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="7">
+                            Select {{currentView}}
+                        </th>
+                    </tr>                        
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">
+                            <span 
+                                *ngFor="let time of times"
+                                [ngClass]="{active: time.selected, today: time.active, disabled: time.disabled}"
+                                (click)="zoomIn(time)"
+                                [innerText]="getTimeUnitValue(time)">
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 `
     ,
@@ -436,7 +439,7 @@ line-height: 1.8em !important;
 }
 
 .ui-datepicker {
-    max-width: 210px;
+
 }
 
 .datepicker-group {
@@ -449,7 +452,6 @@ line-height: 1.8em !important;
 }
 
 .datepicker-control {
-    padding-left: 5px;
     padding-top: 5px;
 }
 
@@ -459,12 +461,31 @@ line-height: 1.8em !important;
 
 .datepicker-icon {
     vertical-align: middle;
-    text-align: center;
-    font-size: 15pt;
+    width: 50px;
+    font-size: 20pt;
+    padding-left: 13px;
 }
 
 .datepicker-placeholder {
     color: #ababab;
+}
+
+.datepicker-superval, .datepicker-subval {
+    margin: 0px;
+    padding: 0px;
+}
+
+.datepicker-superval {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.datepicker-subval {
+    font-size: 20px;
+}
+
+.datepicker-ampm {
+    font-size: 60%;
 }
 
 .sr-only {
@@ -608,7 +629,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
         this.createCalendar();
     }
 
-    get prettyDate(): string {
+    get prettyDate(): any {
         if (this.selectedDate) {
             let m = moment(this.selectedDate);
 
@@ -616,29 +637,25 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
             year = m.format("YYYY"), 
             month = m.format("MMM"), 
             day = m.format("D"), 
-            weekDay = m.format("ddd"), 
             hour = this.options.use24Hour ? m.format("HH") : m.format("h"), 
             minute =  m.format("mm"),
             marker = this.options.use24Hour ? '' : m.format("a");
 
+            const timeString = 'Time'; // TODO: some how this should be locale aware
             switch(this.options.temporal) {
                 case TemporalType.DATE: 
-                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>`;
+                    return { top: `${m.format("dddd")}, ${year}`, main: `${day} ${month}`};
                 case TemporalType.TIMESTAMP: 
-                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
-                    <div><strong>${hour}</strong>:${minute}${marker}</div>
-                    `;
+                    return { top: `${m.format("ddd")} ${day} ${month}, ${year}`, main: `${hour}:${minute}`, marker: marker};
                 case TemporalType.TIME:
-                    return `<div><strong>${hour}</strong>:${minute}${marker}</div>`;
+                    return { top: timeString, main: `${hour}:${minute}`, marker: marker};
                 default:
                 console.warn("Invalid temporal: ", this.options.temporal);
-                    return `<div><strong>${weekDay}</strong> ${day} ${month}, ${year}</div>
-                    <div><strong>${hour}</strong>:${minute}${marker}</div>
-                    `;
+                    return { top: `${m.format("ddd")} ${day} ${month}, ${year}`, main: `${hour}:${minute}`, marker: marker};
             } 
         }
 
-        return "";
+        return {};
     }
 
     get placeholder(): string {
