@@ -473,6 +473,7 @@ line-height: 1.8em !important;
 .datepicker-superval, .datepicker-subval {
     margin: 0px;
     padding: 0px;
+    text-align: left;
 }
 
 .datepicker-superval {
