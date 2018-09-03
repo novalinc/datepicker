@@ -1,3 +1,35 @@
+# NlDatepicker
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+
+----------------------------------------------------
+
 # Angular 2/4 Datetime Picker
 
 Native Angular 2 date picker component styled by Twitter Bootstrap 3
@@ -16,24 +48,8 @@ Install @novalinc/datepicker via NPM
 
 ```bash
 $ cd /path/to/your-awesome-project
-$ npm install --save @novalinc/datepicker@latest
+$ yarn add @novalinc/datepicker@latest
 
-```
-## Angular CLI Scripts and Styles Configuration
-Date picker relies heavily on [Twitter Bootstrap](http://getbootstrap.com/getting-started/#download) for styling, so you need to configure bootstrap globally for your application.
-In the ```.angular-cli.json``` file, please be sure to set the followng:
-
-```json
-...
-    "styles": [
-    "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-    "styles.css"
-    ],
-    "scripts": [
-    "../node_modules/jquery/dist/jquery.min.js",
-    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-    ],
-...
 ```
 
 ## Intergration
@@ -88,26 +104,8 @@ In your component's view (html)
         </div>
     </div>
 </form>
-
-```
-
-## Developement
-
-```bash
-$ cd novalinc-datepicker
-# Build library
-$ npm run build
-```
-
-## Publish Library
-
-```bash
-# Ensure that the project has been built first
-$ cd dist # Be sure to ONLY publish the dist content and NOT the rest of the project
-$ npm publish --access=public
 ```
 
 ## Dependencies
 All dependencies are specified in the package.json, but the following are a MUST:
 * moment (2.17.1)
-* bootstrap (3.3.7)

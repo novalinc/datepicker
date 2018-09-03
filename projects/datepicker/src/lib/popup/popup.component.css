@@ -1,0 +1,48 @@
+.cal-container {
+    width: 350px;
+}
+
+.cal-weekdays {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-shadow: inset 0 -1px rgba(0,0,0,.04);    
+}
+
+.cal-weekday {
+    padding: 15px 0;
+    flex-basis: 14.28571%;
+    flex-grow: 1;
+    font-weight: 500;
+    text-align: center;    
+}
+
+.cal-list-wrapper {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;    
+}
+
+.cal-rows {
+    position: relative;
+}
+
+.cal-row {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.cal-day {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 14.28571%;
+    list-style: none;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}

@@ -1,28 +1,30 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "allowUnusedLabels": false,
-    "declaration": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
     "target": "es5",
-    "noImplicitReturns": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "outDir": "dist",
     "typeRoots": [
       "node_modules/@types"
-    ]
-  },
-  "exclude": [
-    "./node_modules",
-    "aot",
-    "dist",
-    "**/*.spec.ts"
-  ],
-  "angularCompilerOptions": {
-    "genDir": "aot",
-    "strictMetadataEmit": true
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "datepicker": [
+        "dist/datepicker"
+      ],
+      "datepicker/*": [
+        "dist/datepicker/*"
+      ]
+    }
   }
 }

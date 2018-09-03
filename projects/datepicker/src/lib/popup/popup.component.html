@@ -1,0 +1,21 @@
+<div *ngIf="opened" class="cal-container">
+  <div class="cal-header">
+    Select Date
+  </div>
+  <div class="cal-wrapper">
+    <ul *ngIf="timeUnit === 1" class="cal-weekdays">
+      <li *ngFor="let weekday of weekdaysHead" class="cal-weekday">{{weekday}}</li>
+    </ul>
+    <div class="cal-list-wrapper">
+      <ul class="cal-rows">
+        <li *ngFor="let row of times" class="cal-row">
+          <ul>
+            <li *ngFor="let d of row" [ngSwitch]="timeUnit" class="cal-day">
+              <span *ngSwitchCase="1">{{d | date: 'd'}}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
