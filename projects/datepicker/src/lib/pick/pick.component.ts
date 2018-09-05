@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'dp-pick',
@@ -6,17 +6,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./pick.component.css']
 })
 export class PickComponent implements OnInit {
-
-  @Output() 
-  onEvent: EventEmitter<Date>; 
-  
+  @Input()
   pick: Date;
+
+  @Output()
+  onPick: EventEmitter<Date>;
   disabled: boolean;
 
-
-  constructor() { }
+  constructor() {
+    this.onPick = new EventEmitter<Date>();
+  }
 
   ngOnInit() {
+
+  }
+
+  choose(): void {
+    this.onPick.emit(this.pick);
   }
 
 }

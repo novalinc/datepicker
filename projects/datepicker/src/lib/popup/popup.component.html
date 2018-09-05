@@ -6,14 +6,12 @@
     <ul *ngIf="timeUnit === 1" class="cal-weekdays">
       <li *ngFor="let weekday of weekdaysHead" class="cal-weekday">{{weekday}}</li>
     </ul>
-    <ul class="cal-weeks-wrapper">
-      <li *ngFor="let row of times" class="cal-week">
-        <ul class="cal-days">
-          <li *ngFor="let d of row" [ngSwitch]="timeUnit" class="cal-day">
-            <span *ngSwitchCase="1">{{d | date: 'd'}}</span>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div class="cal-weeks-wrapper">
+      <div *ngFor="let week of times" class="cal-week">
+        <div class="cal-days">
+          <dp-pick *ngFor="let day of week" [pick]="day" (onPick)="onPick($event)"></dp-pick>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

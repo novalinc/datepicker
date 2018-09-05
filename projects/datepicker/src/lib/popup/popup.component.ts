@@ -14,6 +14,7 @@ export class PopupComponent implements OnInit {
   @Input() selectedDate: Date;
   @Input() timeUnit: TimeUnit;
 
+
   weekdaysHead: string[];
   tempDate: Date;
   times: Date[][];
@@ -27,6 +28,10 @@ export class PopupComponent implements OnInit {
     this.times = this._service.getCalendar(TimeUnit.DAY, this.tempDate);
 
     // console.debug('Weekdays: ', this.weekdaysHead);
+  }
+
+  onPick(event: any): void {
+    console.debug('EEEEEE: %s', event);
   }
 
 }
