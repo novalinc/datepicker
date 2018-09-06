@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TimeUnit } from '../type';
+import { TemporalType } from '../type';
 
 @Component({
   selector: 'dp-display',
@@ -9,8 +9,8 @@ import { TimeUnit } from '../type';
 export class DisplayComponent implements OnInit {
 
   @Input() selectedDate: Date;
-  @Input() timeUnit: TimeUnit;
-  
+  @Input() temporal: TemporalType;
+
   constructor() { }
 
   ngOnInit() {

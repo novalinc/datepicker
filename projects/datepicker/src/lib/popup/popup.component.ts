@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TimeUnit } from '../type';
 import moment from 'moment';
 import { DatepickerService } from '../datepicker.service';
@@ -14,6 +14,8 @@ export class PopupComponent implements OnInit {
   @Input() selectedDate: Date;
   @Input() timeUnit: TimeUnit;
 
+  @Output()
+  onSelectDate: EventEmitter<Date>;
 
   weekdaysHead: string[];
   tempDate: Date;
@@ -22,6 +24,7 @@ export class PopupComponent implements OnInit {
   constructor(private _service: DatepickerService) {
     this.weekdaysHead = moment.weekdaysMin(); // TODO: make this locale aware
     this.tempDate = this.selectedDate;
+    this.onSelectDate = new EventEmitter<Date>();
   }
 
   ngOnInit() {
@@ -30,8 +33,13 @@ export class PopupComponent implements OnInit {
     // console.debug('Weekdays: ', this.weekdaysHead);
   }
 
-  onPick(event: any): void {
-    console.debug('EEEEEE: %s', event);
+  onPick(date: Date): void {
+    if (this.selectedDate !== date) {
+      console.info('onChange event: %s != %s', this.selectedDate, date);
+      this.selectedDate = date;
+      this.onSelectDate.emit(date);
+    } else {
+      console.info('noChange');
+    }
   }
-
 }

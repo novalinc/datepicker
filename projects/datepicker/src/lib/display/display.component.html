@@ -1,4 +1,23 @@
-<div class="ui-display">
-{{timeUnit}}: {{selectedDate}}
+<div class="input-display">
+    <div class="datepicker-group">
+        <div class="datepicker-icon">
+            <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': temporal === 1, 'glyphicon-time': temporal !== 1, 'center-block': true}"></div>
+        </div>
+        <div class="datepicker-control" [ngSwitch]="temporal">
+            <ng-container *ngSwitchCase="0">
+                <p class="datepicker-superval">{{selectedDate | date: 'EEEE, y'}}</p>
+                <p class="datepicker-subval">{{selectedDate | date: 'd MMM'}}</p>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+                <p class="datepicker-superval">{{selectedDate | date: 'h:mm'}} <span class="datepicker-ampm">{{selectedDate
+                        | date: 'a'}}</span></p>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+                <p class="datepicker-superval">{{selectedDate | date: 'EEE d MMM, y'}}</p>
+                <p class="datepicker-subval">{{selectedDate | date: 'h:mm'}} <span class="datepicker-ampm">{{selectedDate
+                        | date: 'a'}}</span></p>
+            </ng-container>
+        </div>
+        <!-- <div *ngIf="!selectedDate" class="datepicker-control text-muted text-center" [innerText]="placeholder"></div> -->
+    </div>
 </div>
-

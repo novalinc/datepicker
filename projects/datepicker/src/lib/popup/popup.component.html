@@ -1,6 +1,7 @@
 <div *ngIf="opened" class="cal-container">
   <div class="cal-header">
-    Select Date
+    <p class="datepicker-superval">{{selectedDate | date: 'y'}}</p>
+    <p class="datepicker-subval">{{selectedDate | date: 'EEE, MMM d'}}</p>
   </div>
   <div class="cal-wrapper">
     <ul *ngIf="timeUnit === 1" class="cal-weekdays">

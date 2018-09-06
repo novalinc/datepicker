@@ -13,65 +13,70 @@ export class DatepickerService {
   getCalendar(timeUnit: TimeUnit, selectedDate: Date): Date[][] {
     const now = moment();
 
-    let times: Array<Array<Date>> = [];
-
     switch (timeUnit) {
 
       case TimeUnit.YEAR: {
         let t = moment(now).add(-5, 'year');
-        
+
         let years = [[], [], []];
 
-        for ( let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 5; j++) {
-            let date = t.add(1, 'year').toDate();
-            years[i].push(date); 
+            years[i].push(t.toDate());
+            t = t.add(1, 'year');
           }
         }
         return years;
       }
+
       case TimeUnit.MONTH: {
         let t = moment(now).add(-5, 'month');
-        
+
         let months = [[], [], []];
 
-        for ( let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 5; j++) {
-            let date = t.add(1, 'month').toDate();
-            months[i].push(date); 
+            months[i].push(t.toDate());
+            t = t.add(1, 'month');
           }
         }
         return months;
       }
+
       case TimeUnit.DAY: {
-        let t = moment(now).date(1);
-        
+        let t = moment(now)
+          .date(1)
+          .startOf('week');
+
         let day = [[], [], [], [], [], []];
 
-        for ( let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
           for (let j = 0; j < 7; j++) {
-            let date = t.add(1, 'day').toDate();
-            day[i].push(date); 
+            day[i].push(t.toDate());
+            t = t.add(1, 'day');
           }
         }
         return day;
       }
+
       case TimeUnit.HOUR: {
         let t = moment(now).hour(0);
-        
+
         let hour = [[], [], [], [], [], []];
 
-        for ( let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
           for (let j = 0; j < 7; j++) {
-            let date = t.add(1, 'hour').toDate();
-            hour[i].push(date); 
+            hour[i].push(t.toDate());
+            t = t.add(1, 'hour');
           }
         }
         return hour;
       }
+
       default: {
-        
-      } break;
+        console.error('Unknown TimeUnit: %s', timeUnit);
+        return null;
+      }
     }
   }
 

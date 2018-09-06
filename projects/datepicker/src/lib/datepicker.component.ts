@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { TimeUnit } from './type';
+import { TimeUnit, TemporalType } from './type';
 import moment from 'moment';
 
 @Component({
@@ -10,12 +10,13 @@ import moment from 'moment';
     <dp-display 
       (click)="popup = !popup"
       [selectedDate]="selectedDate"
-      [timeUnit]="timeUnit">
+      [temporal]="temporal">
     </dp-display>
     
     <dp-popup 
       [opened]="popup"
       [selectedDate]="selectedDate"
+      (onSelectDate)="onChange()"
       [timeUnit]="timeUnit">
     </dp-popup>
   </div>
@@ -27,33 +28,35 @@ import moment from 'moment';
     multi: true
   }]
 })
-export class DatepickerComponent  implements ControlValueAccessor, OnInit {
+export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Input() tabIndex: number;
   @Input() selectedDate: Date;
   @Input() cursor: Date;
   @Input() timeUnit: TimeUnit;
-  @Output() change: EventEmitter<Date> = new EventEmitter<Date>();
+  @Input() temporal: TemporalType;
+  @Output() change: EventEmitter<Date>;
 
-// Options
-/*
-future: boolean;
-disabled: boolean;
-disabledDates: Array<Date>;
-publicHolidays: Array<Event>;
-locale: string;
-minDate: Date;
-maxDate: Date;
-past: boolean;
-placeholder: string;
-required: boolean;
-use24Hour: boolean;
-*/
+  // Options
+  /*
+  future: boolean;
+  disabled: boolean;
+  disabledDates: Array<Date>;
+  publicHolidays: Array<Event>;
+  locale: string;
+  minDate: Date;
+  maxDate: Date;
+  past: boolean;
+  placeholder: string;
+  required: boolean;
+  use24Hour: boolean;
+  */
   popup: boolean;
 
   constructor() {
-
+    this.temporal = TemporalType.DATE;
     this.timeUnit = TimeUnit.MONTH;
+    this.change = new EventEmitter<Date>();
   }
 
   ngOnInit() {
@@ -64,7 +67,7 @@ use24Hour: boolean;
 
   writeValue(obj: Date | number): void {
     if (obj) {
-      
+
       if (obj instanceof Date) {
         this.selectedDate = obj;
       } else {
@@ -77,6 +80,7 @@ use24Hour: boolean;
   }
 
   registerOnChange(fn: any): void {
+    console.info('ONCHANGEONCHANGEONCHANGE');
     this._propagateChange = fn;
   }
 
@@ -88,7 +92,7 @@ use24Hour: boolean;
     throw new Error("'Disabled' Method not implemented.");
   }
 
-  onClick() : void {
+  onClick(): void {
     this.popup = !this.popup;
   }
 
@@ -97,11 +101,18 @@ use24Hour: boolean;
     // this.popup = false; // TODO: this should be enabled in prod
   }
 
+  onChange(): void {
+    this._propagateChange(this.selectedDate);
+    this.change.emit(this.selectedDate);
+  }
+
   onFocus(): void {
     console.debug('focusing: %s', this.selectedDate);
   }
 
-  private _propagateChange = (e: any) => { };
+  private _propagateChange = (e: any) => {
+    console.info('PROP_CHANGE: ', e);
+  };
 
   private _propagateTouch = (e: any) => { };
 
