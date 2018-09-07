@@ -31,11 +31,11 @@ export class PopupComponent implements OnInit {
 
   onPick(date: Date): void {
     if (this.selectedDate !== date) {
-      console.info('onChange event: %s != %s', this.selectedDate, date);
+      console.info('pre-change event: %s', this.selectedDate);
       this.selectedDate = date;
       this.onSelect.emit(date);
     } else {
-      console.info('noChange');
+      console.info('no pre-change event');
     }
   }
 }
