@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { TimeUnit, TemporalType } from './type';
+import { DateWrapper, TemporalType } from './type';
 import moment from 'moment';
 
 @Component({
@@ -16,8 +16,7 @@ import moment from 'moment';
     <dp-popup 
       [opened]="popup"
       [selectedDate]="selectedDate"
-      (onSelectDate)="onChange()"
-      [timeUnit]="timeUnit">
+      (onSelect)="onChange()">
     </dp-popup>
   </div>
   `,
@@ -32,8 +31,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Input() tabIndex: number;
   @Input() selectedDate: Date;
-  @Input() cursor: Date;
-  @Input() timeUnit: TimeUnit;
   @Input() temporal: TemporalType;
   @Output() change: EventEmitter<Date>;
 
@@ -55,7 +52,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   constructor() {
     this.temporal = TemporalType.DATE;
-    this.timeUnit = TimeUnit.MONTH;
     this.change = new EventEmitter<Date>();
   }
 
@@ -80,7 +76,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   registerOnChange(fn: any): void {
-    console.info('ONCHANGEONCHANGEONCHANGE');
     this._propagateChange = fn;
   }
 

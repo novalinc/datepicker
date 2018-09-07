@@ -1,1 +1,3 @@
-<div (click)="choose()" class="cal-day">{{pick | date: 'd'}}</div>
+<div (click)="select()" class="cal-day" [ngClass]="{'weekend': pick.weekend, 'today': pick.selected }">{{pick.value | date:
+    'd'}}
+</div>

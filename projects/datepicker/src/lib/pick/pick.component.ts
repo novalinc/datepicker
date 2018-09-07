@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { DateWrapper } from '../type';
 
 @Component({
   selector: 'dp-pick',
@@ -7,22 +8,22 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 })
 export class PickComponent implements OnInit {
   @Input()
-  pick: Date;
+  pick: DateWrapper;
 
   @Output()
-  onPick: EventEmitter<Date>;
-  disabled: boolean;
+  onSelect: EventEmitter<Date>;
 
   constructor() {
-    this.onPick = new EventEmitter<Date>();
+    this.onSelect = new EventEmitter<Date>();
   }
 
   ngOnInit() {
 
   }
 
-  choose(): void {
-    this.onPick.emit(this.pick);
+  select(): void {
+    console.debug('pick event:', this.pick.value);
+    this.onSelect.emit(this.pick.value);
   }
 
 }

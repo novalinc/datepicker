@@ -1,2 +1,2 @@
 export { TemporalType } from './temporal-type';
-export { TimeUnit } from './time-unit';
+export { DateWrapper } from './date-wrapper';

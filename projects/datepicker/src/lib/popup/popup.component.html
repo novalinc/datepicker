@@ -4,13 +4,13 @@
     <p class="datepicker-subval">{{selectedDate | date: 'EEE, MMM d'}}</p>
   </div>
   <div class="cal-wrapper">
-    <ul *ngIf="timeUnit === 1" class="cal-weekdays">
-      <li *ngFor="let weekday of weekdaysHead" class="cal-weekday">{{weekday}}</li>
+    <ul class="cal-weekdays">
+      <li *ngFor="let weekday of weekdayNames" class="cal-weekday">{{weekday}}</li>
     </ul>
     <div class="cal-weeks-wrapper">
-      <div *ngFor="let week of times" class="cal-week">
+      <div *ngFor="let week of calendar" class="cal-week">
         <div class="cal-days">
-          <dp-pick *ngFor="let day of week" [pick]="day" (onPick)="onPick($event)"></dp-pick>
+          <dp-pick *ngFor="let day of week" [pick]="day" (onSelect)="onPick($event)"></dp-pick>
         </div>
       </div>
     </div>
