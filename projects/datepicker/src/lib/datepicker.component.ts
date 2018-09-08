@@ -59,6 +59,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     if (!this.tabIndex) {
       this.tabIndex = 0;
     }
+    this._defaultValue = this.selectedDate;
   }
 
   writeValue(obj: Date | number): void {
@@ -111,4 +112,5 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   private _propagateTouch = (e: any) => { };
 
+  private _defaultValue: Date;
 }

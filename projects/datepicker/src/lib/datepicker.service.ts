@@ -27,6 +27,30 @@ export class DatepickerService {
     return day;
   }
 
+  /**
+   * @param selectedDate preselected dated
+   * @param min minimum selectable year
+   * @param max maximum selectable year
+  */
+  getYearsAndMonths(selectedDate: Date, min: number, max): any {
+
+    let t = moment(selectedDate)
+      .year(min);
+
+    let years = {}
+
+    for (let yy = min; yy < max; yy++) {
+      years[yy] = [];
+      for (let m = 0; m < 12; m++) {
+        years[yy]
+          .push(new DateWrapper(t.year(yy).toDate(), t.isSame(selectedDate, 'month')));
+      }
+    }
+
+    return years;
+
+  }
+
   getWeekdayNames(): string[] {
     return moment.weekdaysMin(); // TODO: make this locale aware
   }

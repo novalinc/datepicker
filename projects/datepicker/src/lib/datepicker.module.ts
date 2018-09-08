@@ -3,12 +3,12 @@ import { DatepickerComponent } from './datepicker.component';
 import { DisplayComponent } from './display/display.component';
 import { PopupComponent } from './popup/popup.component';
 import { CommonModule } from '@angular/common';
-import { PickComponent } from './pick/pick.component';
+import { DayComponent } from './popup/day/day.component';
 
 @NgModule({
-  imports: [ CommonModule
+  imports: [CommonModule
   ],
-  declarations: [ DatepickerComponent, DisplayComponent, PopupComponent, PickComponent ],
+  declarations: [DatepickerComponent, DisplayComponent, PopupComponent, DayComponent],
   exports: [DatepickerComponent]
 })
 export class DatepickerModule { }
