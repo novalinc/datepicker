@@ -17,7 +17,7 @@ import moment from 'moment';
       [opened]="popup"
       [selectedDate]="selectedDate"
       [temporal]="temporal"
-      (onSelect)="onChange()">
+      (onSelect)="onChange($event)">
     </dp-popup>
   </div>
   `,
@@ -98,9 +98,11 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     // this.popup = false; // TODO: this should be enabled in prod
   }
 
-  onChange(): void {
-    this._propagateChange(this.selectedDate);
-    this.change.emit(this.selectedDate);
+  onChange(event: Date): void {
+    this.selectedDate = event;
+    this._propagateChange(event);
+    this.change.emit(event);
+    this.popup = false;
   }
 
   onFocus(): void {

@@ -43,9 +43,6 @@ export class PopupComponent implements OnInit {
 
     if (view) {
       this.years = this._service.getYearsAndMonths(this.selectedDate, 1970, 2020);
-    } else {
-      console.debug('Toggle Calendar', this.selectedDate);
-      this.calendar = this._service.getCalendar(this.selectedDate);
     }
 
     return view;
@@ -55,20 +52,21 @@ export class PopupComponent implements OnInit {
     return this._yearView;
   }
 
-  onPickDay(wrap: Date): void {
+  onPickDay(dateEvent: Date): void {
 
-    if (this.selectedDate !== wrap) {
-      this.selectedDate = wrap;
+    if (this.selectedDate !== dateEvent) {
+      this.selectedDate = dateEvent;
       console.debug('pre-change event: ', this.selectedDate);
-      this.onSelect.emit(wrap);
+      this.onSelect.emit(dateEvent);
     } else {
       console.debug('no pre-change event');
     }
   }
 
-  onPickMonth(wrap: Date): void {
-    this.onPickDay(wrap);
-    // this.
+  onPickMonth(dateEvent: Date): void {
+    this._yearView = false;
+    this.selectedDate = dateEvent;
+    this.calendar = this._service.getCalendar(dateEvent);
   }
 
   private _yearView: boolean;
