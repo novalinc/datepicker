@@ -1,19 +1,12 @@
-<!-- <div (click)="select()" class="cal-day" [ngClass]="{'weekend': pick.weekend, 'today': pick.selected }">{{pick.value | date:
-    'd'}}
-</div> -->
-
-<div class="cal-month">
-    <ul class="cal-weekdays">
-        <li *ngFor="let weekday of weekdayNames" class="cal-weekday">{{weekday}}</li>
-    </ul>
-    <div class="cal-weeks-wrapper">
-        <div *ngFor="let week of calendar" class="cal-week">
-            <div class="cal-days">
-                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="cal-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.selected }">{{wrap.value
-                    | date: 'd'}}
-                </div>
-                <!-- <dp-pick [pick]="day" (onSelect)="onPick($event)"></dp-pick> -->
-            </div>
+<div class="year-list">
+    <div *ngFor="let year of keys(years)" class="year-item">
+        <div class="big-year">
+            {{year}}
         </div>
+        <ul class="month-list">
+            <li *ngFor="let m of years[year]" (click)="pick(m)" [ngClass]="{'today': m.selected}" class="month-item">
+                {{m.value | date: 'MMM'}}
+            </li>
+        </ul>
     </div>
 </div>

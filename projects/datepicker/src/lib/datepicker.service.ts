@@ -32,23 +32,22 @@ export class DatepickerService {
    * @param min minimum selectable year
    * @param max maximum selectable year
   */
-  getYearsAndMonths(selectedDate: Date, min: number, max): any {
+  getYearsAndMonths(selectedDate: DateWrapper, min: number, max): any {
 
-    let t = moment(selectedDate)
+    let current = selectedDate ? selectedDate.value : new Date();
+    let t = moment(current)
       .year(min);
 
     let years = {}
 
-    for (let yy = min; yy < max; yy++) {
+    for (let yy = min; yy <= max; yy++) {
       years[yy] = [];
       for (let m = 0; m < 12; m++) {
         years[yy]
-          .push(new DateWrapper(t.year(yy).toDate(), t.isSame(selectedDate, 'month')));
+          .push(new DateWrapper(t.date(1).year(yy).month(m).toDate(), t.isSame(current, 'month')));
       }
     }
-
     return years;
-
   }
 
   getWeekdayNames(): string[] {

@@ -14,12 +14,9 @@ export class PopupComponent implements OnInit {
 
   @Output()
   onSelect: EventEmitter<Date>;
-
-  tempDate: Date;
-  calendar: DateWrapper[][];
+  yearView: boolean;
 
   constructor() {
-    this.tempDate = this.selectedDate;
     this.onSelect = new EventEmitter<Date>();
   }
 
