@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DateWrapper } from '../../type';
-import { DatepickerService } from '../../datepicker.service';
 
 @Component({
   selector: 'dp-month',
@@ -10,18 +9,17 @@ import { DatepickerService } from '../../datepicker.service';
 export class MonthComponent implements OnInit {
   @Input()
   selectedDate: DateWrapper;
+  @Input()
+  years: any;
 
   @Output()
   onSelect: EventEmitter<Date>;
 
-  years: any;
-
-  constructor(private _service: DatepickerService) {
+  constructor() {
     this.onSelect = new EventEmitter<Date>();
   }
 
   ngOnInit() {
-    this.years = this._service.getYearsAndMonths(this.selectedDate, 1970, 2020);
   }
 
   keys(years: any): string[] {

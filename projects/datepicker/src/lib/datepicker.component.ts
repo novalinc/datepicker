@@ -16,6 +16,7 @@ import moment from 'moment';
     <dp-popup 
       [opened]="popup"
       [selectedDate]="selectedDate"
+      [temporal]="temporal"
       (onSelect)="onChange()">
     </dp-popup>
   </div>

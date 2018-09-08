@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DateWrapper } from '../../type';
-import { DatepickerService } from '../../datepicker.service';
+import { TemporalType } from '../../type';
 
 @Component({
   selector: 'dp-day',
@@ -10,20 +10,21 @@ import { DatepickerService } from '../../datepicker.service';
 export class DayComponent implements OnInit {
   @Input()
   selectedDate: DateWrapper;
-
-  weekdayNames: string[];
+  @Input()
   calendar: DateWrapper[][];
+  @Input()
+  weekdayNames: string[];
+  @Input()
+  temporal: TemporalType;
 
   @Output()
   onSelect: EventEmitter<Date>;
 
-  constructor(private _service: DatepickerService) {
+  constructor() {
     this.onSelect = new EventEmitter<Date>();
-    this.weekdayNames = _service.getWeekdayNames();
   }
 
   ngOnInit() {
-    this.calendar = this._service.getCalendar(this.selectedDate.value);
   }
 
   pick(wrap: DateWrapper): void {

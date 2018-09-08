@@ -15,6 +15,8 @@ export class DatepickerService {
       .date(1)
       .startOf('week');
 
+    console.debug('Generate calendar');
+
     let day = [[], [], [], [], [], []];
 
     for (let i = 0; i < 6; i++) {
@@ -32,11 +34,12 @@ export class DatepickerService {
    * @param min minimum selectable year
    * @param max maximum selectable year
   */
-  getYearsAndMonths(selectedDate: DateWrapper, min: number, max): any {
+  getYearsAndMonths(selectedDate: Date, min: number, max): any {
 
-    let current = selectedDate ? selectedDate.value : new Date();
-    let t = moment(current)
+    let t = moment(selectedDate)
       .year(min);
+
+    console.debug('generate year months from %d to %d', min, max);
 
     let years = {}
 
@@ -44,13 +47,14 @@ export class DatepickerService {
       years[yy] = [];
       for (let m = 0; m < 12; m++) {
         years[yy]
-          .push(new DateWrapper(t.date(1).year(yy).month(m).toDate(), t.isSame(current, 'month')));
+          .push(new DateWrapper(t.date(1).year(yy).month(m).toDate(), t.isSame(selectedDate, 'month')));
       }
     }
     return years;
   }
 
   getWeekdayNames(): string[] {
+    console.debug('Getting weekday names');
     return moment.weekdaysMin(); // TODO: make this locale aware
   }
 }
