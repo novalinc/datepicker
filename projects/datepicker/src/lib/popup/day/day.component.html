@@ -1,6 +1,6 @@
 <div class="c-month">
     <ul class="c-weekdays">
-        <li *ngFor="let weekday of weekdayNames" class="c-weekday">{{weekday}}</li>
+        <li *ngFor="let weekday of weekdayNames; let i = index" class="c-weekday" [ngClass]="{'weekend': i === 0 || i === 6}">{{weekday}}</li>
     </ul>
     <div class="c-weeks-wrapper">
         <div *ngFor="let week of calendar" class="c-week">

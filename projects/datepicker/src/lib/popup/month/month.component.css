@@ -1,3 +1,8 @@
+.y-list {
+    overflow-y: scroll;
+    width: 325px;
+    height: 350px;
+}
 
 .m-list {
     display: flex;
@@ -8,7 +13,6 @@
     height: 88px;
     padding-top: 12px;
     box-sizing: border-box;
-    /* font-size: 14px; */
 }
 
 .m-list li {
@@ -22,7 +26,6 @@
     box-sizing: border-box;
     color: #444;
 }
-
 
 .y-row {
 
@@ -40,10 +43,5 @@
 }
 
 .y-row .y-label {
-    width: 25%;
+    width: 20%;
 }
-
-
-
-
-
