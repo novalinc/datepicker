@@ -1,11 +1,11 @@
-<div class="cal-month">
-    <ul class="cal-weekdays">
-        <li *ngFor="let weekday of weekdayNames" class="cal-weekday">{{weekday}}</li>
+<div class="c-month">
+    <ul class="c-weekdays">
+        <li *ngFor="let weekday of weekdayNames" class="c-weekday">{{weekday}}</li>
     </ul>
-    <div class="cal-weeks-wrapper">
-        <div *ngFor="let week of calendar" class="cal-week">
-            <div class="cal-days">
-                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="cal-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.selected }">{{wrap.value
+    <div class="c-weeks-wrapper">
+        <div *ngFor="let week of calendar" class="c-week">
+            <div class="c-days">
+                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="c-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.selected }">{{wrap.value
                     | date: 'd'}}
                 </div>
             </div>

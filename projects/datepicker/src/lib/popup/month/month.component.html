@@ -1,12 +1,16 @@
-<div class="year-list">
-    <div *ngFor="let year of keys(years)" class="year-item">
-        <div class="big-year">
-            {{year}}
+<div class="y-list">
+    <div *ngFor="let year of keys(years)" class="y-row">
+        <div class="y-col y-label">
+            <label>
+                {{year}}
+            </label>
         </div>
-        <ul class="month-list">
-            <li *ngFor="let m of years[year]" (click)="pick(m)" [ngClass]="{'today': m.selected}" class="month-item">
-                {{m.value | date: 'MMM'}}
-            </li>
-        </ul>
+        <div class="y-col">
+            <ul class="m-list">
+                <li *ngFor="let m of years[year]" (click)="pick(m)" [ngClass]="{'today': m.selected}" class="m-item">
+                    {{m.value | date: 'MMM'}}
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
