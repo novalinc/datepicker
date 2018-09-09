@@ -45,3 +45,8 @@
 .y-row .y-label {
     width: 20%;
 }
+
+.today {
+    font-weight: bold;
+    text-decoration: underline;   
+}

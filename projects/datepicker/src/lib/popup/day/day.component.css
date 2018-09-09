@@ -36,6 +36,11 @@
     background-color: #f2f2f2;
 }
 
+.today {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 .c-day {
     display: inline-block;
     box-sizing: border-box;
