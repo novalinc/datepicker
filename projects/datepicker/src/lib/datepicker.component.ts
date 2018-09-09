@@ -4,7 +4,7 @@ import { DateWrapper, TemporalType } from './type';
 import moment from 'moment';
 
 @Component({
-  selector: 'nl-datepicker',
+  selector: 'dz-datepicker',
   template: `
   <div [tabindex]="tabIndex" (blur)="onBlur()"  (focus)="onFocus()" >
     <dp-display 

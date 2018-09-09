@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nl-datepicker": {
+    "dz-datepicker": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nl-datepicker",
+            "outputPath": "dist/dz-datepicker",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nl-datepicker:build"
+            "browserTarget": "dz-datepicker:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "nl-datepicker:build:production"
+              "browserTarget": "dz-datepicker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nl-datepicker:build"
+            "browserTarget": "dz-datepicker:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "nl-datepicker-e2e": {
+    "dz-datepicker-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "nl-datepicker:serve"
+            "devServerTarget": "dz-datepicker:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "nl-datepicker:serve:production"
+              "devServerTarget": "dz-datepicker:serve:production"
             }
           }
         },
@@ -163,5 +163,5 @@
       }
     }
   },
-  "defaultProject": "nl-datepicker"
+  "defaultProject": "dz-datepicker"
 }

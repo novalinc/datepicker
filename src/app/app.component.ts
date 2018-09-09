@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'nl-root',
+  selector: 'dz-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'nl-datepicker';
+  title = 'dz-datepicker';
   arrival: Date;
 
   constructor() {

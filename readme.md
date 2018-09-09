@@ -41,14 +41,14 @@ I've decided NOT to use @angular/material because I wanted something easier to c
 There is still much to do here, and any support is welcome.
 I'm in no way an expert in frontend devepment (I'm a Java developer), so alot of these things are new to me.
 
-[View Demo](https://novalinc.github.io/demos)
+[View Demo](https://dzonga.github.io/demos)
 
 ## Installation
-Install @novalinc/datepicker via NPM
+Install @dzonga/datepicker via NPM
 
 ```bash
 $ cd /path/to/your-awesome-project
-$ yarn add @novalinc/datepicker@latest
+$ yarn add @dzonga/datepicker@latest
 
 ```
 
@@ -57,7 +57,7 @@ $ yarn add @novalinc/datepicker@latest
 In your application's module file
 
 ```typescript
-import { DatepickerModule } from '@novalinc/datepicker';
+import { DatepickerModule } from '@dzonga/datepicker';
 
 ]);
 
@@ -71,7 +71,7 @@ export class FeatureModule { }
 In your application's component file
 ```typescript
 import { Component } from '@angular/core';
-import { DateModel, DatepickerOptions, TemporalType } from '@novalinc/datepicker';
+import { DateModel, DatepickerOptions, TemporalType } from '@dzonga/datepicker';
  
 @Component({
   selector: 'ft-comp',
@@ -97,7 +97,7 @@ In your component's view (html)
     <div class="row">
         <div class="col-sm-6">
             <h4>Selecting both date and time e.g. Departure time</h4>
-            <nl-datepicker name="departure" [options]="departureOptions" [(ngModel)]="departure"></nl-datepicker>
+            <dz-datepicker name="departure" [options]="departureOptions" [(ngModel)]="departure"></dz-datepicker>
         </div>
         <div class="col-sm-6">
 
