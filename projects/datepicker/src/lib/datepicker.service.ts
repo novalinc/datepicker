@@ -21,8 +21,12 @@ export class DatepickerService {
 
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 7; j++) {
-        day[i].push(new DateWrapper(t.toDate(), t.isSame(selectedDate, 'day'), false,
-          t.weekday() === 0 || t.weekday() === 6));
+        day[i].push(new DateWrapper(
+          t.toDate(),
+          t.isSame(selectedDate, 'day'), // Selected
+          t.isSame(new Date(), 'day'), // Today
+          false, // Disable
+          t.weekday() === 0 || t.weekday() === 6)); // Weekend
         t = t.add(1, 'day');
       }
     }
@@ -47,7 +51,11 @@ export class DatepickerService {
       years[yy] = [];
       for (let m = 0; m < 12; m++) {
         years[yy]
-          .push(new DateWrapper(t.date(1).year(yy).month(m).toDate(), t.isSame(selectedDate, 'month')));
+          .push(new DateWrapper(
+            t.date(1).year(yy).month(m).toDate(),
+            t.isSame(selectedDate, 'month'),
+            t.isSame(new Date(), 'month')
+          ));
       }
     }
     return years;

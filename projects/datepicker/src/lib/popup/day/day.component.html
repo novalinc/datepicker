@@ -1,12 +1,12 @@
 <div class="c-month">
     <ul class="c-weekdays">
-        <li *ngFor="let weekday of weekdayNames; let i = index" class="c-weekday" [ngClass]="{'weekend': i === 0 || i === 6}">{{weekday}}</li>
+        <li *ngFor="let weekday of weekdayNames; let i = index" class="c-weekday">{{weekday}}</li>
     </ul>
     <div class="c-weeks-wrapper">
         <div *ngFor="let week of calendar" class="c-week">
             <div class="c-days">
-                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="c-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.selected }">{{wrap.value
-                    | date: 'd'}}
+                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="c-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.selected }">
+                    {{wrap.value | date: 'd'}}
                 </div>
             </div>
         </div>

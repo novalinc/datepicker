@@ -7,7 +7,7 @@
         </div>
         <div class="y-col">
             <ul class="m-list">
-                <li *ngFor="let m of years[year]" (click)="pick(m)" [ngClass]="{'today': m.selected}" class="m-item">
+                <li *ngFor="let m of years[year]" (click)="pick(m)" [ngClass]="{'today': m.today}" class="m-item">
                     {{m.value | date: 'MMM'}}
                 </li>
             </ul>
