@@ -1,7 +1,7 @@
 <div *ngIf="opened" class="cal-container">
   <div class="cal-header">
-    <p class="datepicker-superval" (click)="toggleYearView()">{{selectedDate | date: 'y'}}</p>
-    <p class="datepicker-subval">{{selectedDate | date: 'EEE, MMM d'}}</p>
+    <div class="datepicker-superval" (click)="toggleYearView()">{{selectedDate | date: 'y'}}</div>
+    <div class="datepicker-subval">{{selectedDate | date: 'EEE, MMM d'}}</div>
   </div>
   <dp-month *ngIf="yearView" [selectedDate]="selectedDate" [years]="years" (onSelect)="onPickMonth($event)"></dp-month>
   <dp-day *ngIf="!yearView" [selectedDate]="selectedDate" [temporal]="temporal" [calendar]="calendar" [weekdayNames]="weekdayNames"
