@@ -1,4 +1,5 @@
 
+
 .c-weekdays, .c-weeks-wrapper, .c-days {
     margin: 0;
     padding: 0;
@@ -29,6 +30,7 @@
 }
 
 .c-days {
+
 }
 
 .weekend {

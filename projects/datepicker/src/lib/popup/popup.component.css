@@ -2,3 +2,9 @@
     width: 300px;
     border: #e0e0e0 solid 1px;
 }
+
+.cal-header {
+    background-color: #4597fd;
+    color: #fff;
+    padding: 10px;
+}
