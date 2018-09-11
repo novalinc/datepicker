@@ -1,7 +1,8 @@
 .y-list {
-    overflow-y: scroll;
-    width: 315px;
+    overflow-x: hidden;
+    width: 320px;
     height: 350px;
+    margin: 10px;
 }
 
 .m-list {
