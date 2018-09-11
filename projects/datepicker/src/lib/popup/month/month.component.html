@@ -1,9 +1,7 @@
 <div class="y-list">
     <div *ngFor="let year of keys(years)" class="y-row">
-        <div class="y-col y-label">
-            <label>
-                {{year}}
-            </label>
+        <div (click)="setYear(year)" class="y-col y-label">
+            {{year}}
         </div>
         <div class="y-col">
             <ul class="m-list">

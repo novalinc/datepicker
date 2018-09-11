@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DateWrapper } from '../../type';
+import moment from 'moment';
 
 @Component({
   selector: 'dp-month',
@@ -30,5 +31,20 @@ export class MonthComponent implements OnInit {
     console.debug('picking month: ', wrap.value);
     this.selectedDate = wrap;
     this.onSelect.emit(wrap.value);
+  }
+
+  setYear(year: number): void {
+    if (this.selectedDate instanceof Date) {
+      let d: Date = this.selectedDate;
+
+      this.selectedDate.value = moment(d)
+        .year(year)
+        .toDate();
+
+      console.debug('picking year: %s', year);
+      this.onSelect.emit(d);
+    } else {
+      console.warn('No selected date');
+    }
   }
 }

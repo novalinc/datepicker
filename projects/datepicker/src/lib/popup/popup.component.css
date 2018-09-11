@@ -1,8 +1,7 @@
 .cal-container {
-    border: #e0e0e0 solid 1px;
+    border: 1px solid #4597fd;
     position: absolute;
     z-index: 10;
-    box-shadow: 1px 1px 5px 1px rgba(0,0,0,.1);
 }
 
 .cal-header {
