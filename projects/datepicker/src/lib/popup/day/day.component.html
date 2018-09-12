@@ -5,8 +5,10 @@
     <div class="c-weeks-wrapper">
         <div *ngFor="let week of calendar" class="c-week">
             <div class="c-days">
-                <div *ngFor="let wrap of week" (click)="pick(wrap)" class="c-day" [ngClass]="{'weekend': wrap.weekend, 'today': wrap.today }">
-                    {{wrap.value | date: 'd'}}
+                <div *ngFor="let wrap of week" class="c-day" [ngClass]="{'weekend': wrap.weekend }">
+                    <div (click)="pick(wrap)" class="c-day-sel" [ngClass]="{'today': wrap.today }">
+                        <span>{{wrap.value | date: 'd'}}</span>
+                    </div>
                 </div>
             </div>
         </div>
