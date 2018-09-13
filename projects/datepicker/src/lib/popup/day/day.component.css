@@ -29,12 +29,16 @@
 
 }
 
+.outbound {
+    color: #c3c1c1 !important;
+}
+
 .c-days {
 
 }
 
 .weekend {
-    background-color: #f1f1f1;
+    background-color: #eaeaea;
 }
 
 .c-day {
@@ -52,19 +56,27 @@
 }
 
 .c-day-sel > span {
-    color: #808080;
+    color: #242424;
 }
 
 .c-day-sel:hover {
-    background-color: #e4e4e4;
+    background-color: #f5f5f5;
     border-radius: 50%;
 }
 
-.today {
+.today, .selected {
     position: relative;
     border-radius: 50%;
-    color: #4597fd;
     font-weight: bold;
+}
+
+.today {
+    color: #4597fd;
+}
+
+.selected {
+    /* color: #fff;
+    background-color: #4597fd; */
 }
 
 .today::before {

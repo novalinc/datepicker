@@ -1,0 +1,18 @@
+.input-display {
+    border: solid 1px #dcdcdc;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dp-super {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.dp-main {
+    font-size: 20px;
+}
+
+/* * {
+    padding: 10px;
+} */

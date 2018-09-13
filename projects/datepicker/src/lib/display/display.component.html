@@ -1,23 +1,23 @@
 <div class="input-display">
-    <div class="datepicker-group">
-        <div class="datepicker-icon">
+    <div class="dp-group">
+        <div class="dp-icon">
             <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': temporal === 1, 'glyphicon-time': temporal !== 1, 'center-block': true}"></div>
         </div>
-        <div class="datepicker-control" [ngSwitch]="temporal">
+        <div class="dp-control" [ngSwitch]="temporal">
             <ng-container *ngSwitchCase="0">
-                <div class="datepicker-superval">{{selectedDate | date: 'EEEE, y'}}</div>
-                <div class="datepicker-subval">{{selectedDate | date: 'd MMM'}}</div>
+                <div class="dp-super">{{selectedDate | date: 'EEEE, y'}}</div>
+                <div class="dp-main">{{selectedDate | date: 'd MMM'}}</div>
             </ng-container>
             <ng-container *ngSwitchCase="1">
-                <div class="datepicker-superval">{{selectedDate | date: 'h:mm'}} <span class="datepicker-ampm">{{selectedDate
+                <div class="dp-super">{{selectedDate | date: 'h:mm'}} <span class="dp-ampm">{{selectedDate
                         | date: 'a'}}</span></div>
             </ng-container>
             <ng-container *ngSwitchCase="2">
-                <div class="datepicker-superval">{{selectedDate | date: 'EEE d MMM, y'}}</div>
-                <div class="datepicker-subval">{{selectedDate | date: 'h:mm'}} <span class="datepicker-ampm">{{selectedDate
+                <div class="dp-super">{{selectedDate | date: 'EEE d MMM, y'}}</div>
+                <div class="dp-main">{{selectedDate | date: 'h:mm'}} <span class="dp-ampm">{{selectedDate
                         | date: 'a'}}</span></div>
             </ng-container>
         </div>
-        <!-- <div *ngIf="!selectedDate" class="datepicker-control text-muted text-center" [innerText]="placeholder"></div> -->
+        <!-- <div *ngIf="!selectedDate" class="dp-control text-muted text-center" [innerText]="placeholder"></div> -->
     </div>
 </div>

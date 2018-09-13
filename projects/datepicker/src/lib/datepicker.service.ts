@@ -18,15 +18,18 @@ export class DatepickerService {
     console.debug('Generate calendar');
 
     let day = [[], [], [], [], [], []];
-
+    let now = new Date();
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 7; j++) {
-        day[i].push(new DateWrapper(
+        let tmp = new DateWrapper(
           t.toDate(),
           t.isSame(selectedDate, 'day'), // Selected
-          t.isSame(new Date(), 'day'), // Today
-          false, // Disable
-          t.weekday() === 0 || t.weekday() === 6)); // Weekend
+          t.isSame(now, 'day')); // Today
+
+        tmp.weekend = (t.weekday() === 0) || (t.weekday() === 6);
+        tmp.outbound = !t.isSame(now, 'month');
+
+        day[i].push(tmp); // Weekend
         t = t.add(1, 'day');
       }
     }
@@ -46,7 +49,7 @@ export class DatepickerService {
     console.debug('generate year months from %d to %d', min, max);
 
     let years = {}
-
+    let now = new Date();
     for (let yy = min; yy <= max; yy++) {
       years[yy] = [];
       for (let m = 0; m < 12; m++) {
@@ -54,7 +57,7 @@ export class DatepickerService {
           .push(new DateWrapper(
             t.date(1).year(yy).month(m).toDate(),
             t.isSame(selectedDate, 'month'),
-            t.isSame(new Date(), 'month')
+            t.isSame(now, 'month')
           ));
       }
     }

@@ -6,8 +6,8 @@
         <div *ngFor="let week of calendar" class="c-week">
             <div class="c-days">
                 <div *ngFor="let wrap of week" class="c-day" [ngClass]="{'weekend': wrap.weekend }">
-                    <div (click)="pick(wrap)" class="c-day-sel" [ngClass]="{'today': wrap.today }">
-                        <span>{{wrap.value | date: 'd'}}</span>
+                    <div (click)="pick(wrap)" class="c-day-sel" [ngClass]="{ 'selected': wrap.selected, 'today': wrap.today }">
+                        <span [ngClass]="{ 'outbound': wrap.outbound }">{{wrap.value | date: 'd'}}</span>
                     </div>
                 </div>
             </div>

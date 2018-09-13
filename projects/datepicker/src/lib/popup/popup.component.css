@@ -10,12 +10,16 @@
     padding: 5px;
 }
 
-.cal-toggle {
-    font-size: 120%;
+.super-date {
     cursor: pointer;
     padding: 5px;
+    font-size: 20px;
+}
+
+.main-date {
+    font-size: 30px;
 }
 
 .cal-toggle:hover {
-    background-color: #89bdfd;
+    /* background-color: #89bdfd; */
 }
