@@ -1,7 +1,7 @@
 <div class="input-display">
     <div class="dp-group">
         <div class="dp-icon">
-            <div [ngClass]="{ 'glyphicon': true, 'glyphicon-calendar': temporal === 1, 'glyphicon-time': temporal !== 1, 'center-block': true}"></div>
+            <fa-icon [icon]="iconCal"></fa-icon>
         </div>
         <div class="dp-control" [ngSwitch]="temporal">
             <ng-container *ngSwitchCase="0">

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { DateWrapper, TemporalType } from './type';
-import moment from 'moment';
+import { TemporalType } from './type';
 
 @Component({
   selector: 'dz-datepicker',
