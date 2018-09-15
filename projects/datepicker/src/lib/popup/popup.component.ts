@@ -22,18 +22,14 @@ export class PopupComponent implements OnInit {
 
   constructor(private _service: DatepickerService) {
     this.onSelect = new EventEmitter<Date>();
-
   }
 
   ngOnInit() {
-
-    switch (this.temporal) {
-      case TemporalType.DATE:
-      case TemporalType.TIMESTAMP:
-        this.weekdayNames = this._service.getWeekdayNames();
-        this.calendar = this._service.getCalendar(this.selectedDate);
-        break;
-      case TemporalType.TIME:
+    if (this.temporal !== TemporalType.TIME) {
+      this.weekdayNames = this._service.getWeekdayNames();
+      this.calendar = this._service.getCalendar(this.selectedDate);
+    } else {
+      console.debug('Time (%s) temporal selected', this.temporal);
     }
   }
 

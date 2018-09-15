@@ -15,7 +15,7 @@ export class DatepickerService {
       .date(1)
       .startOf('week');
 
-    console.debug('Generate calendar');
+    console.debug('Generate calendar: ', selectedDate);
 
     let day = [[], [], [], [], [], []];
     let now = new Date();
@@ -27,7 +27,7 @@ export class DatepickerService {
           t.isSame(now, 'day')); // Today
 
         tmp.weekend = (t.weekday() === 0) || (t.weekday() === 6);
-        tmp.outbound = !t.isSame(now, 'month');
+        tmp.outbound = !t.isSame(selectedDate, 'month');
 
         day[i].push(tmp); // Weekend
         t = t.add(1, 'day');

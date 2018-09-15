@@ -10,7 +10,7 @@ import { TemporalType } from './type';
       (onPopup)="togglePopup($event)"
       (onClear)="clearDate($event)"
       [selectedDate]="selectedDate"
-      [placeholder]="placeholder"
+      placeholder="placeholder"
       [temporal]="temporal">
     </dp-display>
     
@@ -22,7 +22,6 @@ import { TemporalType } from './type';
     </dp-popup>
   </div>
   `,
-  styles: [],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DatepickerComponent),
@@ -70,16 +69,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(obj: Date | number): void {
-    if (obj) {
-
-      if (obj instanceof Date) {
-        this.selectedDate = obj;
-      } else {
-        console.debug("Passed in epoch unix timestamp '%s', I'm converting to Date object", obj);
-        this.selectedDate = new Date(obj);
-      }
+    if (obj instanceof Date) {
+      this.selectedDate = obj;
+    } else if (typeof obj == 'number') {
+      console.debug("Passed in epoch unix timestamp '%s'", obj);
+      this.selectedDate = new Date(obj);
     } else {
-
+      console.debug('%s is not a valid date', obj)
     }
   }
 
@@ -95,11 +91,6 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     throw new Error("'Disabled' Method not implemented.");
   }
 
-  togglePopup(date: Date): void {
-    this.popup = !this.popup;
-    console.debug('Toggle ', this.popup, date);
-  }
-
   clearDate(date: Date): void {
     console.debug('Clearing date ', date);
     this.selectedDate = this._defaultValue;
@@ -110,11 +101,23 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     // this.popup = false; // TODO: this should be enabled in prod
   }
 
-  onChange(event: Date): void {
-    this.selectedDate = event;
-    this._propagateChange(event);
-    this.change.emit(event);
+  onChange(date: Date): void {
+    this.selectedDate = date;
+    this._propagateChange(date);
+    this.change.emit(date);
     this.popup = false;
+  }
+
+  togglePopup(date: Date): void {
+    this.popup = !this.popup;
+    this.selectedDate = date;
+
+    console.debug('Toggle ', this.popup, date);
+    // get default value on first popup
+    if (!this._loaded) {
+      this._loaded = true;
+      this._defaultValue = date;
+    }
   }
 
   onFocus(): void {
@@ -122,10 +125,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   private _propagateChange = (e: any) => {
-    console.info('PROP_CHANGE: ', e);
+    console.debug('PROP_CHANGE: ', e);
   };
 
-  private _propagateTouch = (e: any) => { };
+  private _propagateTouch = (e: any) => {
+    console.debug('PROP_TOUCH: ', e);
+  };
 
   private _defaultValue: Date;
+  private _loaded: boolean;
 }
