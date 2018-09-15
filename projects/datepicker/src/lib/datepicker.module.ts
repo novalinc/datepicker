@@ -12,4 +12,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [DatepickerComponent, DisplayComponent, PopupComponent, DayComponent, MonthComponent],
   exports: [DatepickerComponent]
 })
-export class DatepickerModule { }
+export class DatepickerModule {
+
+}

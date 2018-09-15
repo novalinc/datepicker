@@ -1,15 +1,17 @@
+<span class="far fa-chevron-left"></span>
 <div class="input-display">
     <div class="dp-group">
-        <div class="dp-icon">
+        <div (click)="onPopup.emit(selectedDate)" class="dp-icon">
             <fa-icon [icon]="iconCal"></fa-icon>
         </div>
-        <div class="dp-control" [ngSwitch]="temporal">
+        <div (click)="onPopup.emit(selectedDate)" class="dp-control" [ngSwitch]="temporal">
             <ng-container *ngSwitchCase="0">
                 <div class="dp-super">{{selectedDate | date: 'EEEE, y'}}</div>
                 <div class="dp-main">{{selectedDate | date: 'd MMM'}}</div>
             </ng-container>
             <ng-container *ngSwitchCase="1">
-                <div class="dp-super">{{selectedDate | date: 'h:mm'}} <span class="dp-ampm">{{selectedDate
+                <div class="dp-super">Time</div>
+                <div class="dp-main">{{selectedDate | date: 'h:mm'}} <span class="dp-ampm">{{selectedDate
                         | date: 'a'}}</span></div>
             </ng-container>
             <ng-container *ngSwitchCase="2">
@@ -18,6 +20,9 @@
                         | date: 'a'}}</span></div>
             </ng-container>
         </div>
-        <!-- <div *ngIf="!selectedDate" class="dp-control text-muted text-center" [innerText]="placeholder"></div> -->
+        <div *ngIf="!selectedDate" class="dp-control text-muted text-center" [innerText]="placeholder"></div>
+        <div (click)="onClear.emit(selectedDate)" class="dp-icon">
+            <fa-icon [icon]="deleteIcon"></fa-icon>
+        </div>
     </div>
 </div>

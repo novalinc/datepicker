@@ -9,6 +9,7 @@
 .dp-control, .dp-icon {
     display: table-cell;
     vertical-align: middle;
+    padding-top: 5px;
 }
 
 .dp-icon {
@@ -28,4 +29,9 @@
 
 .dp-main {
     font-size: 20px;
+}
+
+.dp-ampm {
+    font-size: 10px;
+    text-transform: lowercase;
 }

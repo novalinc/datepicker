@@ -6,9 +6,11 @@ import { TemporalType } from './type';
   selector: 'dz-datepicker',
   template: `
   <div [tabindex]="tabIndex" (blur)="onBlur()"  (focus)="onFocus()" >
-    <dp-display 
-      (click)="popup = !popup"
+    <dp-display
+      (onPopup)="togglePopup($event)"
+      (onClear)="clearDate($event)"
       [selectedDate]="selectedDate"
+      [placeholder]="placeholder"
       [temporal]="temporal">
     </dp-display>
     
@@ -30,8 +32,8 @@ import { TemporalType } from './type';
 export class DatepickerComponent implements ControlValueAccessor, OnInit {
 
   @Input() tabIndex: number;
-  @Input() selectedDate: Date;
   @Input() temporal: TemporalType;
+  @Input() placeholder: string;
   @Output() change: EventEmitter<Date>;
 
   // Options
@@ -44,14 +46,13 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   minDate: Date;
   maxDate: Date;
   past: boolean;
-  placeholder: string;
   required: boolean;
   use24Hour: boolean;
   */
   popup: boolean;
+  selectedDate: Date;
 
   constructor() {
-    this.temporal = TemporalType.DATE;
     this.change = new EventEmitter<Date>();
   }
 
@@ -59,6 +60,12 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     if (!this.tabIndex) {
       this.tabIndex = 0;
     }
+    if (!this.temporal) {
+      this.temporal = TemporalType.DATE;
+    } else {
+      console.debug('Temporal explicitly set to %s', this.temporal);
+    }
+
     this._defaultValue = this.selectedDate;
   }
 
@@ -88,8 +95,14 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     throw new Error("'Disabled' Method not implemented.");
   }
 
-  onClick(): void {
+  togglePopup(date: Date): void {
     this.popup = !this.popup;
+    console.debug('Toggle ', this.popup, date);
+  }
+
+  clearDate(date: Date): void {
+    console.debug('Clearing date ', date);
+    this.selectedDate = this._defaultValue;
   }
 
   onBlur(): void {
