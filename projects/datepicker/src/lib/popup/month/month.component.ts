@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DateWrapper } from '../../type';
 import moment from 'moment';
 import { DatepickerService } from '../../service/datepicker.service';
@@ -24,7 +24,7 @@ export class MonthComponent implements OnInit {
   }
 
   keys(years: any): string[] {
-    return Object.keys(years);
+    return Object.keys(years).reverse();
   }
 
   pick(wrap: DateWrapper): void {

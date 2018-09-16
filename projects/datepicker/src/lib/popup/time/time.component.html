@@ -1,0 +1,10 @@
+<div class="t-list">
+    <div>
+        <select (change)="pickHour($event)">
+            <option *ngFor="let hour of hours" [value]="hour" [selected]="false">{{hour | number: '2.0-0'}}</option>
+        </select>
+        <select (change)="pickMinute($event)">
+            <option *ngFor="let minute of minutes" [value]="minute" [selected]="false">{{minute | number: '2.0-0'}}</option>
+        </select>
+    </div>
+</div>

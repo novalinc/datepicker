@@ -40,7 +40,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   use24Hour: boolean;
   */
   popup: boolean;
-  selectedDate: Date;
+  value: Date;
 
   constructor(private _service: DatepickerService) {
     this.change = new EventEmitter<Date>();
@@ -62,29 +62,31 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
       this.iconCal = faCalendarAlt;
     }
 
-    this._service.value$.subscribe(
+    let hack = 0;
+    this._service.pick$.subscribe(
       (date) => {
-        this.selectedDate = date;
-
-        if (!this._defaultValue && this.selectedDate) {
-          console.debug('Setting reset value');
-          this._defaultValue = this.selectedDate;
+        // I'm only interested in the second value
+        if (hack == 2) {
+          console.debug('Setting reset value %s', date, hack);
+          this._defaultValue = date;
         }
+        hack++;
       }
     );
   }
 
   writeValue(obj: Date | number): void {
+    console.debug('Setting value: %s', obj);
     if (obj instanceof Date) {
-      this.selectedDate = obj;
-    } else if (typeof obj == 'number') {
+      this.value = obj;
+    } else if (obj && !isNaN(obj)) {
       console.debug("Passed in epoch unix timestamp '%s'", obj);
-      this.selectedDate = new Date(obj);
-    } else {
-      console.debug('%s is not a valid date', obj)
+      this.value = new Date(obj);
     }
 
-    this._service.setValue(this.selectedDate);
+    // Hack, this is to catpture this value in the OnInit() method
+    // Invoked twice for some reason
+    this._service.pickDate(this.value);
   }
 
   registerOnChange(fn: any): void {
@@ -96,36 +98,37 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    throw new Error("'Disabled' Method not implemented.");
+    // throw new Error("'Disabled' Method not implemented.");
   }
 
   clearDate(): void {
-    console.debug('Clearing date %s', this.selectedDate);
-    this.selectedDate = this._defaultValue;
-    this._service.setValue(this._defaultValue);
+    console.debug('Clearing date %s', this.value);
+    this.value = this._defaultValue;
+    this._service.pickDate(this._defaultValue);
   }
 
   onBlur(): void {
-    this._propagateTouch(this.selectedDate);
+    this._propagateTouch(this.value);
     // this.popup = false; // TODO: this should be enabled in prod
   }
 
   onChange(date: Date): void {
-    this.selectedDate = date;
+    this.popup = false;
+    this.value = date;
     this._propagateChange(date);
     this.change.emit(date);
-    this._service.setValue(date);
-    this.popup = false;
   }
 
   togglePopup(): void {
-    this.popup = !this.popup;
-
     console.debug('Toggle %s', this.popup);
+    this.popup = !this.popup;
+    if (this.popup) {
+      this._service.pickDate(this.value ? this.value : new Date());
+    }
   }
 
   onFocus(): void {
-    console.debug('focusing: %s', this.selectedDate);
+    console.debug('focusing: %s', this.value);
   }
 
   private _propagateChange = (e: any) => {
@@ -137,5 +140,4 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   };
 
   private _defaultValue: Date;
-  // private _firstLoad: boolean;
 }

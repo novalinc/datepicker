@@ -9,8 +9,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class DatepickerService {
 
   constructor() {
-    this._valueSubject = new BehaviorSubject<Date>(null);
-    this._valueEvent$ = this._valueSubject.asObservable();
     this._pickSubject = new BehaviorSubject<Date>(null);
     this._pickEvent$ = this._pickSubject.asObservable();
   }
@@ -53,7 +51,7 @@ export class DatepickerService {
     const currentVal = this._pickSubject.getValue();
 
     if (currentVal == null) {
-      console.debug('Cannot get years & months, no date to work from');
+      console.debug('Cannot get years & months, no date to work from date');
       return null;
     }
 
@@ -65,7 +63,7 @@ export class DatepickerService {
     let years = {}
     let now = new Date();
     let dayOfMonth = t.date() > 28 ? 28 : t.date(); // Restrict to the shortest month (moment issue)
-    for (let yy = min; yy <= max; yy++) {
+    for (let yy = max; yy >= min; yy--) {
       years[yy] = [];
       for (let m = 0; m < 12; m++) {
         years[yy]
@@ -84,16 +82,8 @@ export class DatepickerService {
     return moment.weekdaysMin(); // TODO: make this locale aware
   }
 
-  get value$(): Observable<Date> {
-    return this._valueEvent$;
-  }
-
   get pick$(): Observable<Date> {
     return this._pickEvent$;
-  }
-
-  setValue(date: Date): void {
-    this._valueSubject.next(date);
   }
 
   pickDate(date: Date): void {
@@ -104,8 +94,6 @@ export class DatepickerService {
     return this._pickSubject.getValue();
   }
 
-  private _valueEvent$: Observable<Date>;
-  private _valueSubject: BehaviorSubject<Date>;
   private _pickEvent$: Observable<Date>;
   private _pickSubject: BehaviorSubject<Date>;
 }

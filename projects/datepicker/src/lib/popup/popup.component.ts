@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DateWrapper, TemporalType } from '../type';
+import { TemporalType } from '../type';
 import { DatepickerService } from '../service/datepicker.service';
 
 @Component({
@@ -8,41 +8,37 @@ import { DatepickerService } from '../service/datepicker.service';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit {
-
-  @Input() opened: boolean;
-  @Input() selectedDate: Date;
   @Input() temporal: TemporalType;
 
   @Output()
   onSelect: EventEmitter<Date>;
 
+  pickedDate: Date;
+  viewMode: string;
+
   constructor(private _service: DatepickerService) {
     this.onSelect = new EventEmitter<Date>();
+    this.viewMode = 'day';
   }
 
   ngOnInit() {
-    this._service.value$.subscribe(date => {
-      if (!date) {
-        this.selectedDate = new Date();
-      }
-      this._service.pickDate(this.selectedDate); // initialize pick date with current value
+    this._service.pick$.subscribe(date => {
+      this.pickedDate = date;
     });
 
-  }
-
-  toggleYearView(): boolean {
-    return this._yearView = !this._yearView;
-  }
-
-  get yearView(): boolean {
-    return this._yearView;
+    if (this.temporal == TemporalType.DATE
+      || this.temporal == TemporalType.TIMESTAMP) {
+      this.viewMode = 'day';
+    } else {
+      this.viewMode = 'time'
+    }
   }
 
   onPickDay(dateEvent: Date): void {
 
-    if (this.selectedDate !== dateEvent) {
-      this.selectedDate = dateEvent;
-      console.debug('pre-change event: ', this.selectedDate);
+    if (this.pickedDate !== dateEvent) {
+      this.pickedDate = dateEvent;
+      console.debug('pre-change event: ', this.pickedDate);
       this.onSelect.emit(dateEvent);
     } else {
       console.debug('no pre-change event');
@@ -50,9 +46,7 @@ export class PopupComponent implements OnInit {
   }
 
   onPickMonth(dateEvent: Date): void {
-    this._yearView = false;
-    this.selectedDate = dateEvent;
+    this.pickedDate = dateEvent;
+    this.viewMode = 'day';
   }
-
-  private _yearView: boolean;
 }

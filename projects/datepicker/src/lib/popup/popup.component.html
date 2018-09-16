@@ -1,8 +1,21 @@
-<div *ngIf="opened" class="cal-container">
+<div class="cal-container">
   <div class="cal-header">
-    <div class="super-date" (click)="toggleYearView()">{{selectedDate | date: 'y'}}</div>
-    <div class="main-date">{{selectedDate | date: 'EEE, MMM d'}}</div>
+    <div class="super-date">
+      <div (click)="viewMode='month'" class="cal-year">{{pickedDate | date: 'y'}}</div>
+      <div (click)="viewMode='time'" class="cal-year">{{pickedDate | date: 'HH:mm'}}</div>
+    </div>
+    <div class="main-date" (click)="viewMode='day'">{{pickedDate | date: 'EEE, MMM d'}}</div>
   </div>
-  <dp-month *ngIf="yearView" (onSelect)="onPickMonth($event)"></dp-month>
-  <dp-day *ngIf="!yearView" [temporal]="temporal" (onSelect)="onPickDay($event)"></dp-day>
+
+  <span [ngSwitch]="viewMode">
+    <ng-container *ngSwitchCase="'month'">
+      <dp-month (onSelect)="onPickMonth($event)"></dp-month>
+    </ng-container>
+    <ng-container *ngSwitchCase="'day'">
+      <dp-day [temporal]="temporal" (onSelect)="onPickDay($event)"></dp-day>
+    </ng-container>
+    <ng-container *ngSwitchCase="'time'">
+      <dp-time></dp-time>
+    </ng-container>
+  </span>
 </div>

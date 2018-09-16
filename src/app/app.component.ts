@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { TemporalType } from 'datepicker/datepicker';
-// import { TemporalType } from 'datepicker/lib/type';
+import { TemporalType } from 'datepicker';
 
 @Component({
   selector: 'dz-root',
@@ -10,6 +9,7 @@ import { TemporalType } from 'datepicker/datepicker';
 export class AppComponent {
   title = 'Dzonga Datepicker';
   dob: Date;
+  temporal: TemporalType = TemporalType.TIMESTAMP;
 
   constructor() {
     this.dob = new Date(1984, 3, 21);

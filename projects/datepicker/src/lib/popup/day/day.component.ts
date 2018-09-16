@@ -25,8 +25,7 @@ export class DayComponent implements OnInit {
 
   ngOnInit() {
     if (this.temporal !== TemporalType.TIME) {
-      this._service.pick$.subscribe((initDate) => {
-        console.debug('Change Detected, generating new calendar %s', initDate);
+      this._service.pick$.subscribe((pickedDate) => {
         this.weekdayNames = this._service.getWeekdayNames();
         this.calendar = this._service.getCalendar();
       });
@@ -36,6 +35,11 @@ export class DayComponent implements OnInit {
   }
 
   pick(wrap: DateWrapper): void {
+    // Both Month and dayOfMonth are important Here
+
+    wrap.value.setHours(this._service.pickedDate.getHours());
+    wrap.value.setMinutes(this._service.pickedDate.getMinutes());
+
     console.debug('picking day: ', wrap.value);
     this.onSelect.emit(wrap.value);
   }
