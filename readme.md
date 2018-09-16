@@ -1,4 +1,4 @@
-# NlDatepicker
+# Dzonga Datepicker
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 
@@ -108,4 +108,5 @@ In your component's view (html)
 
 ## Dependencies
 All dependencies are specified in the package.json, but the following are a MUST:
-* moment (2.17.1)
+- moment (2.22.2)
+- fontawesome (5.3.1)

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DateWrapper, TemporalType } from '../type';
-import { DatepickerService } from '../datepicker.service';
+import { DatepickerService } from '../service/datepicker.service';
 
 @Component({
   selector: 'dp-popup',
@@ -12,36 +12,24 @@ export class PopupComponent implements OnInit {
   @Input() opened: boolean;
   @Input() selectedDate: Date;
   @Input() temporal: TemporalType;
-  @Input() weekdayNames: string[];
 
   @Output()
   onSelect: EventEmitter<Date>;
-
-  years: any;
-  calendar: DateWrapper[][];
 
   constructor(private _service: DatepickerService) {
     this.onSelect = new EventEmitter<Date>();
   }
 
   ngOnInit() {
-    if (this.temporal !== TemporalType.TIME) {
-      this.weekdayNames = this._service.getWeekdayNames();
-      this.calendar = this._service.getCalendar(this.selectedDate);
-    } else {
-      console.debug('Time (%s) temporal selected', this.temporal);
-    }
+    this._service.value$.subscribe(date => {
+      this.selectedDate = date;
+      this._service.pickDate(date); // initialize pick date with current value
+    });
+
   }
 
   toggleYearView(): boolean {
-
-    let view = this._yearView = !this._yearView;
-
-    if (view) {
-      this.years = this._service.getYearsAndMonths(this.selectedDate, 1970, 2020);
-    }
-
-    return view;
+    return this._yearView = !this._yearView;
   }
 
   get yearView(): boolean {
@@ -62,7 +50,6 @@ export class PopupComponent implements OnInit {
   onPickMonth(dateEvent: Date): void {
     this._yearView = false;
     this.selectedDate = dateEvent;
-    this.calendar = this._service.getCalendar(dateEvent);
   }
 
   private _yearView: boolean;

@@ -1,27 +1,15 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TemporalType } from './type';
+import { IconDefinition, faCalendarAlt, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
+import { DatepickerService } from './service/datepicker.service';
 
 @Component({
   selector: 'dz-datepicker',
-  template: `
-  <div [tabindex]="tabIndex" (blur)="onBlur()"  (focus)="onFocus()" >
-    <dp-display
-      (onPopup)="togglePopup($event)"
-      (onClear)="clearDate($event)"
-      [selectedDate]="selectedDate"
-      placeholder="placeholder"
-      [temporal]="temporal">
-    </dp-display>
-    
-    <dp-popup 
-      [opened]="popup"
-      [selectedDate]="selectedDate"
-      [temporal]="temporal"
-      (onSelect)="onChange($event)">
-    </dp-popup>
-  </div>
-  `,
+  templateUrl: './datepicker.component.html',
+  styleUrls: ['./datepicker.component.css'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DatepickerComponent),
@@ -34,6 +22,9 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   @Input() temporal: TemporalType;
   @Input() placeholder: string;
   @Output() change: EventEmitter<Date>;
+
+  iconCal: IconDefinition;
+  deleteIcon: IconDefinition = faTrashAlt;
 
   // Options
   /*
@@ -51,7 +42,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   popup: boolean;
   selectedDate: Date;
 
-  constructor() {
+  constructor(private _service: DatepickerService) {
     this.change = new EventEmitter<Date>();
   }
 
@@ -65,7 +56,22 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
       console.debug('Temporal explicitly set to %s', this.temporal);
     }
 
-    this._defaultValue = this.selectedDate;
+    if (this.temporal === TemporalType.TIME) {
+      this.iconCal = faClock;
+    } else {
+      this.iconCal = faCalendarAlt;
+    }
+
+    this._service.value$.subscribe(
+      (date) => {
+        this.selectedDate = date;
+
+        if (!this._defaultValue && this.selectedDate) {
+          console.debug('Setting reset value');
+          this._defaultValue = this.selectedDate;
+        }
+      }
+    );
   }
 
   writeValue(obj: Date | number): void {
@@ -77,6 +83,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     } else {
       console.debug('%s is not a valid date', obj)
     }
+
+    this._service.setValue(this.selectedDate);
   }
 
   registerOnChange(fn: any): void {
@@ -91,9 +99,10 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     throw new Error("'Disabled' Method not implemented.");
   }
 
-  clearDate(date: Date): void {
-    console.debug('Clearing date ', date);
+  clearDate(): void {
+    console.debug('Clearing date %s', this.selectedDate);
     this.selectedDate = this._defaultValue;
+    this._service.setValue(this._defaultValue);
   }
 
   onBlur(): void {
@@ -105,19 +114,14 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     this.selectedDate = date;
     this._propagateChange(date);
     this.change.emit(date);
+    this._service.setValue(date);
     this.popup = false;
   }
 
-  togglePopup(date: Date): void {
+  togglePopup(): void {
     this.popup = !this.popup;
-    this.selectedDate = date;
 
-    console.debug('Toggle ', this.popup, date);
-    // get default value on first popup
-    if (!this._loaded) {
-      this._loaded = true;
-      this._defaultValue = date;
-    }
+    console.debug('Toggle %s', this.popup);
   }
 
   onFocus(): void {
@@ -133,5 +137,5 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   };
 
   private _defaultValue: Date;
-  private _loaded: boolean;
+  private _firstLoad: boolean;
 }

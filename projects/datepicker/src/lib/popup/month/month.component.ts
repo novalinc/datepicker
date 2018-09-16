@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DateWrapper } from '../../type';
 import moment from 'moment';
+import { DatepickerService } from '../../service/datepicker.service';
 
 @Component({
   selector: 'dp-month',
@@ -8,19 +9,18 @@ import moment from 'moment';
   styleUrls: ['./month.component.css']
 })
 export class MonthComponent implements OnInit {
-  @Input()
-  selectedDate: DateWrapper;
-  @Input()
+
   years: any;
 
   @Output()
   onSelect: EventEmitter<Date>;
 
-  constructor() {
+  constructor(private _service: DatepickerService) {
     this.onSelect = new EventEmitter<Date>();
   }
 
   ngOnInit() {
+    this.years = this._service.getYearsAndMonths(1969, 2020);
   }
 
   keys(years: any): string[] {
@@ -29,22 +29,19 @@ export class MonthComponent implements OnInit {
 
   pick(wrap: DateWrapper): void {
     console.debug('picking month: ', wrap.value);
-    this.selectedDate = wrap;
+    this._service.pickDate(wrap.value);
     this.onSelect.emit(wrap.value);
   }
 
   setYear(year: number): void {
-    if (this.selectedDate instanceof Date) {
-      let d: Date = this.selectedDate;
 
-      this.selectedDate.value = moment(d)
-        .year(year)
-        .toDate();
+    let yearMonth = moment(this._service.pickedDate)
+      .year(year)
+      .toDate();
 
-      console.debug('picking year: %s', year);
-      this.onSelect.emit(d);
-    } else {
-      console.warn('No selected date');
-    }
+    console.debug('picking year: %s', year);
+    this._service.pickDate(yearMonth);
+    this.onSelect.emit(yearMonth);
+
   }
 }

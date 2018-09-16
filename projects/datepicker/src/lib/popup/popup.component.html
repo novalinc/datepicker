@@ -3,7 +3,6 @@
     <div class="super-date" (click)="toggleYearView()">{{selectedDate | date: 'y'}}</div>
     <div class="main-date">{{selectedDate | date: 'EEE, MMM d'}}</div>
   </div>
-  <dp-month *ngIf="yearView" [selectedDate]="selectedDate" [years]="years" (onSelect)="onPickMonth($event)"></dp-month>
-  <dp-day *ngIf="!yearView" [selectedDate]="selectedDate" [temporal]="temporal" [calendar]="calendar" [weekdayNames]="weekdayNames"
-    (onSelect)="onPickDay($event)"></dp-day>
+  <dp-month *ngIf="yearView" (onSelect)="onPickMonth($event)"></dp-month>
+  <dp-day *ngIf="!yearView" [temporal]="temporal" (onSelect)="onPickDay($event)"></dp-day>
 </div>

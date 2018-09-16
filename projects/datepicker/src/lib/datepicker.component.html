@@ -1,10 +1,9 @@
-<span class="far fa-chevron-left"></span>
-<div class="input-display">
+<div [tabindex]="tabIndex" (blur)="onBlur()" (focus)="onFocus()">
     <div class="dp-group">
-        <div (click)="onPopup.emit(selectedDate)" class="dp-icon">
+        <div (click)="togglePopup()" class="dp-icon">
             <fa-icon [icon]="iconCal"></fa-icon>
         </div>
-        <div (click)="onPopup.emit(selectedDate)" class="dp-control" [ngSwitch]="temporal">
+        <div (click)="togglePopup()" class="dp-control" [ngSwitch]="temporal">
             <ng-container *ngSwitchCase="0">
                 <div class="dp-super">{{selectedDate | date: 'EEEE, y'}}</div>
                 <div class="dp-main">{{selectedDate | date: 'd MMM'}}</div>
@@ -19,10 +18,13 @@
                 <div class="dp-main">{{selectedDate | date: 'h:mm'}} <span class="dp-ampm">{{selectedDate
                         | date: 'a'}}</span></div>
             </ng-container>
+            <div *ngIf="!selectedDate" [innerText]="placeholder"></div>
         </div>
-        <div *ngIf="!selectedDate" class="dp-control text-muted text-center" [innerText]="placeholder"></div>
-        <div (click)="onClear.emit(selectedDate)" class="dp-icon">
+        <div (click)="clearDate()" class="dp-icon">
             <fa-icon [icon]="deleteIcon"></fa-icon>
         </div>
     </div>
+
+    <dp-popup [opened]="popup" selectedDate="selectedDate" [temporal]="temporal" (onSelect)="onChange($event)">
+    </dp-popup>
 </div>

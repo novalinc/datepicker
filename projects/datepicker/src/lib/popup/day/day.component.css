@@ -38,7 +38,7 @@
 }
 
 .weekend {
-    background-color: #eaeaea;
+    background-color: #f9f9f9;
 }
 
 .c-day {
@@ -75,8 +75,9 @@
 }
 
 .selected {
-    /* color: #fff;
-    background-color: #4597fd; */
+    display: block;
+    background-color: #4597fd;
+    color: #fff !important;
 }
 
 .today::before {
