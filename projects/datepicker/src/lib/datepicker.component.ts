@@ -137,5 +137,5 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   };
 
   private _defaultValue: Date;
-  private _firstLoad: boolean;
+  // private _firstLoad: boolean;
 }

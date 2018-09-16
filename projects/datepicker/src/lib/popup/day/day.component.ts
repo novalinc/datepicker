@@ -24,7 +24,6 @@ export class DayComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.debug('INIT DAY COMP');
     if (this.temporal !== TemporalType.TIME) {
       this._service.pick$.subscribe((initDate) => {
         console.debug('Change Detected, generating new calendar %s', initDate);

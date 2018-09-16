@@ -22,8 +22,10 @@ export class PopupComponent implements OnInit {
 
   ngOnInit() {
     this._service.value$.subscribe(date => {
-      this.selectedDate = date;
-      this._service.pickDate(date); // initialize pick date with current value
+      if (!date) {
+        this.selectedDate = new Date();
+      }
+      this._service.pickDate(this.selectedDate); // initialize pick date with current value
     });
 
   }

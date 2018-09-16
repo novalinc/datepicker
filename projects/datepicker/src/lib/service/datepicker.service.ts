@@ -50,10 +50,10 @@ export class DatepickerService {
   */
   getYearsAndMonths(min: number, max): any {
 
-    const currentVal = this._valueSubject.getValue();
+    const currentVal = this._pickSubject.getValue();
 
     if (currentVal == null) {
-      console.debug('Canno get Years and Months, no');
+      console.debug('Cannot get years & months, no date to work from');
       return null;
     }
 
