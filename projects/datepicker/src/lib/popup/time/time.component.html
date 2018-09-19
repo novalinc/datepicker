@@ -1,10 +1,41 @@
 <div class="t-list">
-    <div>
-        <select (change)="pickHour($event)">
-            <option *ngFor="let hour of hours" [value]="hour" [selected]="false">{{hour | number: '2.0-0'}}</option>
-        </select>
-        <select (change)="pickMinute($event)">
-            <option *ngFor="let minute of minutes" [value]="minute" [selected]="false">{{minute | number: '2.0-0'}}</option>
-        </select>
+    <div class="t-row">
+        <div class="t-col">
+            <button (click)="changeHour(true)" class="t-btn">
+                <fa-icon [icon]="upIcon"></fa-icon>
+            </button>
+        </div>
+        <div class="t-col">
+        </div>
+        <div class="t-col">
+            <button (click)="changeMinute(true)" class="t-btn">
+                <fa-icon [icon]="upIcon"></fa-icon>
+            </button>
+        </div>
+    </div>
+    <div class="t-row  t-number">
+        <div class="t-col">
+            {{time | date : 'HH'}}
+        </div>
+        <div class="t-col">
+            :
+        </div>
+        <div class="t-col">
+            {{time | date : 'mm'}}
+        </div>
+    </div>
+    <div class="t-row">
+        <div class="t-col">
+            <button (click)="changeHour(false)" class="t-btn">
+                <fa-icon [icon]="downIcon"></fa-icon>
+            </button>
+        </div>
+        <div class="t-col">
+        </div>
+        <div class="t-col">
+            <button (click)="changeMinute(false)" class="t-btn">
+                <fa-icon [icon]="downIcon"></fa-icon>
+            </button>
+        </div>
     </div>
 </div>
