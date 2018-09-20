@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { IconDefinition, faClock } from '@fortawesome/free-regular-svg-icons';
 import { TemporalType } from '../type';
 import { DatepickerService } from '../service/datepicker.service';
 
@@ -15,6 +16,7 @@ export class PopupComponent implements OnInit {
 
   pickedDate: Date;
   viewMode: string;
+  clockIcon: IconDefinition = faClock;
 
   constructor(private _service: DatepickerService) {
     this.onSelect = new EventEmitter<Date>();

@@ -18,8 +18,8 @@
             </ng-container>
             <div *ngIf="!value" [innerText]="placeholder"></div>
         </div>
-        <div (click)="clearDate()" class="dp-icon">
-            <fa-icon [icon]="deleteIcon"></fa-icon>
+        <div *ngIf="dirty" (click)="clearDate()" class="dp-icon">
+            <fa-icon [icon]="undoIcon"></fa-icon>
         </div>
     </div>
 

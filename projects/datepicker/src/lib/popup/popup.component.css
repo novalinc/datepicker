@@ -1,25 +1,53 @@
 .cal-container {
-    border: 1px solid #4597fd;
+    border: 1px solid #1867c0;
     position: absolute;
     z-index: 10;
+    width: 337px; /* Max width of popup */
 }
 
 .cal-header {
-    background-color: #4597fd;
-    color: #fff;
-    padding: 5px;
+    background-color: #1867c0;
+    color: hsla(0,0%,100%,.5);
+    font-size: 18px;
+    padding: 15px;
 }
 
 .super-date {
+    display: table;
+    width: 100%;
+}
+
+.super-date > div {
     cursor: pointer;
-    padding: 5px;
-    font-size: 20px;
+
 }
 
 .main-date {
-    font-size: 30px;
+    cursor: pointer;
 }
 
-.cal-toggle:hover {
-    /* background-color: #89bdfd; */
+.active {
+    font-size: 25px;
+    font-weight: bold;
+    color: #fff;
 }
+
+.cal-year {
+    text-align: right;
+}
+
+.cal-year, .cal-time {
+    vertical-align: top;
+    display: table-cell;
+}
+
+.cal-time:hover, .cal-year:hover, .cal-main:hover {
+    color: #fff;
+}
+
+
+.cal-year, .cal-time, .main-date {
+    -webkit-transition: font-size .1s, color .1s; /* Safari */
+    transition: font-size .1s, color .1s;
+}
+

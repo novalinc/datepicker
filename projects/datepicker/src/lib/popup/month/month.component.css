@@ -1,6 +1,5 @@
 .y-list {
     overflow-x: hidden;
-    width: 325px;
     height: 300px;
 }
 
@@ -8,17 +7,15 @@
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    margin: 0;
+    margin: 10px 0;
     padding: 0;
-    height: 88px;
-    padding-top: 12px;
     box-sizing: border-box;
 }
 
 .m-list li {
     display: flex;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
@@ -32,7 +29,7 @@
 }
 
 .today {
-    background-color: #4597fd;
+    background-color: #1867c0;
     color: #fff;
 }
 
@@ -45,15 +42,14 @@
     display: table-cell;
 }
 
-.y-col label {
-    display: block;
+.y-row .y-label {
+    width: 20%;
+    font-weight: 700;
+    cursor: pointer;
     text-align: center;
 }
 
-.y-row .y-label {
-    width: 20%;
-    font-weight: bold;
-    cursor: pointer;
-    padding-top: 15px;
-    text-align: center;
+.y-label:hover {
+    color: #6d6d6d;
 }
+

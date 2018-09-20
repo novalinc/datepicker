@@ -23,15 +23,14 @@
 }
 
 .dp-super {
-    font-size: 11px;
-    font-weight: bold;
+    font-size: 12px;
 }
 
 .dp-main {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .dp-ampm {
-    font-size: 10px;
+    font-size: 75%;
     text-transform: lowercase;
 }

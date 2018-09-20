@@ -12,7 +12,7 @@ export class AppComponent {
   temporal: TemporalType = TemporalType.TIMESTAMP;
 
   constructor() {
-    this.dob = new Date(1984, 3, 21);
+    // this.dob = new Date(1984, 3, 21);
 
   }
 }

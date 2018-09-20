@@ -1,10 +1,12 @@
 <div class="cal-container">
   <div class="cal-header">
     <div class="super-date">
-      <div (click)="viewMode='month'" class="cal-year">{{pickedDate | date: 'y'}}</div>
-      <div (click)="viewMode='time'" class="cal-year">{{pickedDate | date: 'HH:mm'}}</div>
+      <div *ngIf="temporal != 0" (click)="viewMode='time'" class="cal-time" [ngClass]="{'active': viewMode == 'time'}">
+        <fa-icon [icon]="clockIcon"></fa-icon> {{pickedDate | date: 'HH:mm'}}
+      </div>
+      <div (click)="viewMode='month'" class="cal-year" [ngClass]="{'active': viewMode == 'month'}">{{pickedDate | date: 'y'}}</div>
     </div>
-    <div class="main-date" (click)="viewMode='day'">{{pickedDate | date: 'EEE, MMM d'}}</div>
+    <div (click)="viewMode='day'" class="main-date" [ngClass]="{'active': viewMode == 'day'}">{{pickedDate | date: 'EEE, MMM d'}}</div>
   </div>
 
   <span [ngSwitch]="viewMode">

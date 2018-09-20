@@ -2,7 +2,7 @@ import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@ang
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TemporalType } from './type';
 import { IconDefinition, faCalendarAlt, faClock } from '@fortawesome/free-regular-svg-icons';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
 
 import { DatepickerService } from './service/datepicker.service';
 
@@ -24,7 +24,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   @Output() change: EventEmitter<Date>;
 
   iconCal: IconDefinition;
-  deleteIcon: IconDefinition = faTrashAlt;
+  undoIcon: IconDefinition = faUndo;
 
   // Options
   /*
@@ -41,6 +41,7 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
   */
   popup: boolean;
   value: Date;
+  dirty: boolean;
 
   constructor(private _service: DatepickerService) {
     this.change = new EventEmitter<Date>();
@@ -116,7 +117,8 @@ export class DatepickerComponent implements ControlValueAccessor, OnInit {
     this.popup = false;
     this.value = date;
     this._propagateChange(date);
-    this.change.emit(date);
+    this.dirty = true;
+    // this.change.emit(date);
   }
 
   togglePopup(): void {

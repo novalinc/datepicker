@@ -1,6 +1,5 @@
 .t-list {
-    padding: 20px 0px;
-    width: 300px;
+    padding: 20px;
 }
 
 .t-row {
@@ -17,7 +16,7 @@
 
 .t-btn {
     cursor: pointer;
-    color: #4597fd;
+    color: #1867c0;
     font-size: 50px;
     border: none;
     background-color: white;
